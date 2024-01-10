@@ -45,7 +45,7 @@ while True:
             imgResizeShape = imgResize.shape
             wGap = math.ceil((imgSize-wCal)/2)
             imgWhite[:, wGap:wCal+wGap] = imgResize
-            prediction,index = classifier.getPrediction(img)
+            prediction,index = classifier.getPrediction(imgWhite)
             print(prediction, index)
            # print(index)
 
@@ -58,7 +58,7 @@ while True:
             try:
                 imgWhite[hGap:hCal+hGap, :] = imgResize
                 print("yo")
-                prediction, index = classifier.getPrediction(img)
+                prediction, index = classifier.getPrediction(imgWhite)
                 print(prediction, index)
             except:
                 print("get back in range")
