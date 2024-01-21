@@ -9,7 +9,7 @@ import time
 #Note: make sure camera access is enabled
 cap = cv2.VideoCapture(0)
 detector = HandDetector(maxHands=1) # may change later
-classifier = Classifier("model3/keras_model.h5", "model3/labels.txt")
+classifier = Classifier("model_10L/keras_model.h5", "model_10L/labels.txt")
 
 imgSize= 300
 # create offset for crop size
@@ -18,7 +18,8 @@ offset = 20
 folder = "custom_images/C"
 counter = 0
 
-labels = ["A", "B", "C"]
+labels = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+# j missing above (dynamic)
 
 while True:
     success, img = cap.read()
@@ -46,6 +47,8 @@ while True:
             wGap = math.ceil((imgSize-wCal)/2)
             imgWhite[:, wGap:wCal+wGap] = imgResize
             prediction,index = classifier.getPrediction(imgWhite)
+            letter_seen = labels[index]
+            print(f"Detected letter: {letter_seen}")
             print(prediction, index)
            # print(index)
 
@@ -59,9 +62,12 @@ while True:
                 imgWhite[hGap:hCal+hGap, :] = imgResize
                 print("yo")
                 prediction, index = classifier.getPrediction(imgWhite)
+                letter_seen = labels[index]
+                print(f"Detected letter: {letter_seen}")
                 print(prediction, index)
             except:
                 print("get back in range")
+
 
 
 
@@ -73,3 +79,4 @@ while True:
         cv2.imshow("ImageWhite", imgWhite)
     cv2.imshow("Image", img)
     key = cv2.waitKey(1)
+

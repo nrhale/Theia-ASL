@@ -12,7 +12,7 @@ imgSize= 300
 # create offset for crop size
 offset = 20
 
-folder = "custom_images/C"
+folder = "custom_images/P"
 counter = 0
 
 while True:
@@ -62,7 +62,7 @@ while True:
         cv2.imshow("ImageWhite", imgWhite)
     cv2.imshow("Image", img)
     key = cv2.waitKey(1)
-    if key == ord("s") and counter < 700:
+    if key == ord("s") and counter < 400:
         counter += 1
         cv2.imwrite(f'{folder}/Image_{time.time()}.jpg', imgWhite)
         print(counter)
