@@ -9,7 +9,7 @@ import time
 #Note: make sure camera access is enabled
 cap = cv2.VideoCapture(0)
 detector = HandDetector(maxHands=1) # may change later
-classifier = Classifier("model_10L/keras_model.h5", "model_10L/labels.txt")
+classifier = Classifier("model3/keras_model.h5", "model3/labels.txt")
 
 imgSize= 300
 # create offset for crop size
@@ -18,7 +18,7 @@ offset = 20
 folder = "custom_images/C"
 counter = 0
 
-labels = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+labels = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y"]
 # j missing above (dynamic)
 
 while True:
