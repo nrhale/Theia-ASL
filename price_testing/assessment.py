@@ -81,6 +81,8 @@ def get_prediction(sign_list, image, classifier):
 # chooses a sign and
 def assess_sign(sign, model_name):
     cap = cv2.VideoCapture(0)
+    cap2 = cv2.VideoCapture(0)
+
     detector = HandDetector(maxHands=1)  # may change later
     classifier = Classifier(f"{model_name}/keras_model.h5", f"{model_name}/labels.txt")
     imgSize = 300
