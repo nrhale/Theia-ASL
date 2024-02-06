@@ -1,15 +1,15 @@
 import cv2
-from cvzone.HandTrackingModule import HandDetector
+from price_testing.HandTrackingModule import HandDetector
+#from cvzone.HandTrackingModule import HandDetector #old version
 from cvzone.ClassificationModule import Classifier
 import numpy as np
 import math
-import time
 
 #0 is id number of webcam
 #Note: make sure camera access is enabled
 cap = cv2.VideoCapture(0)
 detector = HandDetector(maxHands=1) # may change later
-classifier = Classifier("model_10L/keras_model.h5", "model_10L/labels.txt")
+classifier = Classifier("model3/keras_model.h5", "model_10L/labels.txt")
 
 imgSize= 300
 # create offset for crop size
@@ -76,7 +76,7 @@ while True:
 
 
         cv2.imshow("ImageCrop", imgCrop)
-        cv2.imshow("ImageWhite", imgWhite)
+        cv2.imshow("ImageOverlay", imgWhite)
     cv2.imshow("Image", img)
     key = cv2.waitKey(1)
 

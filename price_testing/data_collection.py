@@ -1,5 +1,5 @@
 import cv2
-from cvzone.HandTrackingModule import HandDetector
+from price_testing.HandTrackingModule import HandDetector
 import numpy as np
 import math
 import time
@@ -8,6 +8,7 @@ import time
 #Note: make sure camera access is enabled
 cap = cv2.VideoCapture(0)
 detector = HandDetector(maxHands=1) # may change later
+
 imgSize= 300
 # create offset for crop size
 offset = 20
@@ -18,6 +19,9 @@ counter = 0
 while True:
     success, img = cap.read()
     hands, img = detector.findHands(img)
+    #result = hands.process(img)
+    #hand_la
+    #detector.
     if hands:
         hand = hands[0] # because we just have the one hand
         x,y,w,h = hand['bbox'] #gets us all the values
