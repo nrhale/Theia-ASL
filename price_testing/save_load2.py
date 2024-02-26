@@ -1,7 +1,7 @@
 import json
 import os.path
 
-# Used for storing sign information
+# Used for storing sign information. Updated throughout assessments (eventually learning as well)
 class Sign:
     def __init__(self, sign_name, assessed_count, correct_count, associated_module):
         self.sign_name = sign_name
@@ -9,7 +9,7 @@ class Sign:
         self.correct_count = correct_count
         self.associated_module = associated_module
 
-# Used for stroing module information. Updated throughout assessments
+# Used for storing module information. Updated throughout assessments
 class Module:
     def __init__(self, module_name, model, sign_list=[], high_score=0):
         self.module_name = module_name
@@ -26,12 +26,14 @@ class Module:
         return sign_names
 
 
-# Custom serialization method for custom classes
+# Custom serialization method for custom classes (used for creating JSON)
 def custom_serializer(obj):
     if isinstance(obj, (Sign, Module)):
         return obj.__dict__
     raise TypeError(f"Object of type {type(obj)} is not JSON serializable")
 
+
+# Saving the user module data (updating signs, scores, sign accuracy, etc.)
 def save_module_data(modules, file_name):
 
     # Serialize to JSON with custom serialization
@@ -41,12 +43,16 @@ def save_module_data(modules, file_name):
     with open(f"{file_name}.json", "w+") as json_file:
         json_file.write(json_data)
 
+# Loading the module data to dictionary (must call load_mod_user_data after). Note: This is an internal function and
+# likely does not ever have to be called directly
 def load_module_data_dict(file_name):
     # Load data from the JSON file
     with open(f"{file_name}.json", "r+") as json_file:
         loaded_modules_dicts = json.load(json_file)
         return loaded_modules_dicts
 
+
+# Loading module data in a format that is usable (list of Module objects)
 def load_mod_user_data(loaded_module_dicts):
     mods = []
     for module_dict in loaded_module_dicts:
@@ -59,11 +65,13 @@ def load_mod_user_data(loaded_module_dicts):
         mods.append(new_mod)
     return mods
 
+# Simplifying load (only need to call this function)
 def load_module_objects(file_name):
     module_dicts = load_module_data_dict(file_name)
     mods = load_mod_user_data(module_dicts)
     return mods
 
+# when you have a module dict, use this to print (likely never used, was used during development)
 def print_module_stats_dict(loaded_modules_dict):
     for module in loaded_modules_dict:
         print(f"\nModule Name: {module['module_name']}")
@@ -72,6 +80,7 @@ def print_module_stats_dict(loaded_modules_dict):
             accuracy = round(sign['correct_count'] / sign['assessed_count'] * 100)
             print(f"Sign Name: {sign['sign_name']}, Times Asked: {sign['assessed_count']}, Accuracy: {accuracy}%")
 
+# prints the user stats to the console for each sign
 def print_module_stats(loaded_modules):
     for mod in loaded_modules:
         print(f"\nModule name: {mod.module_name}")
@@ -82,6 +91,7 @@ def print_module_stats(loaded_modules):
                 accuracy = round(sign.correct_count / sign.assessed_count * 100)
             print(f"Sign: {sign.sign_name}, Times Asked: {sign.assessed_count}, Accuracy: {accuracy}%")
 
+# list the modules and let the user choose one. Returns the index of the module in the module list.
 def list_modules(loaded_modules):
     for mod in loaded_modules:
         print(f"{loaded_modules.index(mod)}. {mod.module_name}")
@@ -89,8 +99,6 @@ def list_modules(loaded_modules):
     if int(chosen_mod_index) < len(loaded_modules) and int(chosen_mod_index) >= 0:
         return int(chosen_mod_index)
         #view_module(loaded_modules[int(chosen_mod_index)])
-
-
     else:
         list_modules(loaded_modules)
 
