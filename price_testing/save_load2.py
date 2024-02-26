@@ -1,5 +1,7 @@
 import json
+import os.path
 
+# Used for storing sign information
 class Sign:
     def __init__(self, sign_name, assessed_count, correct_count, associated_module):
         self.sign_name = sign_name
@@ -7,6 +9,7 @@ class Sign:
         self.correct_count = correct_count
         self.associated_module = associated_module
 
+# Used for stroing module information. Updated throughout assessments
 class Module:
     def __init__(self, module_name, model, sign_list=[], high_score=0):
         self.module_name = module_name
@@ -35,12 +38,12 @@ def save_module_data(modules, file_name):
     json_data = json.dumps(modules, default=custom_serializer, indent=4)
 
     # Save to a file
-    with open(f"{file_name}.json", "w") as json_file:
+    with open(f"{file_name}.json", "w+") as json_file:
         json_file.write(json_data)
 
 def load_module_data_dict(file_name):
     # Load data from the JSON file
-    with open(f"{file_name}.json", "r") as json_file:
+    with open(f"{file_name}.json", "r+") as json_file:
         loaded_modules_dicts = json.load(json_file)
         return loaded_modules_dicts
 
@@ -61,13 +64,39 @@ def load_module_objects(file_name):
     mods = load_mod_user_data(module_dicts)
     return mods
 
-def print_module_stats(loaded_modules):
-    for module in loaded_modules:
+def print_module_stats_dict(loaded_modules_dict):
+    for module in loaded_modules_dict:
         print(f"\nModule Name: {module['module_name']}")
         print(f"Module Model: {module['model']}")
         for sign in module['sign_list']:
             accuracy = round(sign['correct_count'] / sign['assessed_count'] * 100)
             print(f"Sign Name: {sign['sign_name']}, Times Asked: {sign['assessed_count']}, Accuracy: {accuracy}%")
+
+def print_module_stats(loaded_modules):
+    for mod in loaded_modules:
+        print(f"\nModule name: {mod.module_name}")
+        for sign in mod.sign_list:
+            if sign.assessed_count == 0:
+                accuracy = 0
+            else:
+                accuracy = round(sign.correct_count / sign.assessed_count * 100)
+            print(f"Sign: {sign.sign_name}, Times Asked: {sign.assessed_count}, Accuracy: {accuracy}%")
+
+def list_modules(loaded_modules):
+    for mod in loaded_modules:
+        print(f"{loaded_modules.index(mod)}. {mod.module_name}")
+    chosen_mod_index = input("choose a module: ")
+    if int(chosen_mod_index) < len(loaded_modules) and int(chosen_mod_index) >= 0:
+        return int(chosen_mod_index)
+        #view_module(loaded_modules[int(chosen_mod_index)])
+
+
+    else:
+        list_modules(loaded_modules)
+
+
+
+
 
 
 # Now `loaded_modules` contains the list of `Module` objects

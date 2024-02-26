@@ -129,13 +129,13 @@ def full_process(module):
 def compare_signs(system_sign, user_sign, score, mod):
     if (system_sign == user_sign):
         print("Correct!")
-        update_sign_data(user_sign, True, mod)
+        update_sign_data(system_sign, True, mod)
         score += 1
         # also remove from list or add to a new list for end-of-session testing of missed signs
     elif (user_sign == None):
         print("Sorry! No hand was detected in the frame.")
     else:
-        update_sign_data(user_sign, False, mod)
+        update_sign_data(system_sign, False, mod)
         print(f"Sorry! It looks like the sign you made was {user_sign}.")
     return score
 
@@ -203,7 +203,7 @@ if __name__ == "__main__":
     #loaded_module_list, loaded_sign_list = load_user_data(f"{username}.json")
 
     full_process(loaded_modules[0])
-    save_module_data(loaded_modules, "mod_user_data")
+    save_module_data(loaded_modules, "mp_data")
     print("hi")
 
 
