@@ -1,0 +1,15 @@
+NOTE: CURRENTLY NOT BEING USED. REPLACE WITH JSON SAVING
+
+The user txt files will be used to load and save user data. This may be replaced by React methods in later uses, but
+was created now so that certain functionalities of the project could be implemented. A user text file can be made for
+each user. There may be a new page for this upon using the app if we stick with this method.
+
+Currently the user txt files follow this format. Note, the first word specified what kind of data it is to the
+program. This information will be loaded in via object construction containing all necessary data. Object information
+will be changed throughout using the application and then saved upon certain events (learning sign, completing
+assessment, etc.)
+
+username *username*
+sign *sign_name* *number of times tested* *accuracy*
+module *module name* *high score game 1* *high score game 2* etc.
+
