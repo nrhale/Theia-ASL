@@ -8,6 +8,8 @@ import numpy as np
 import math
 
 from save_load2 import*
+from sign_info import*
+from common import*
 
 TIMER_TIME = 3
 
@@ -111,39 +113,69 @@ def full_process(module):
 
     remaining_list = module.sign_name_list.copy()
     model_name = module.model
-    sign_list = module.sign_name_list
+    #sign_name_list = module.sign_name_list
+    sign_name_list = create_si_name_list(SI_LIST, module.module_name)
     score = 0
     while len(remaining_list) > 0:
         classifier = Classifier(f"{model_name}/keras_model.h5", f"{model_name}/labels.txt")
         chosen_sign = choose_symbol(remaining_list) # also removes from remaining list, but should probably decouple this
         print(f"Please Sign {chosen_sign}")
         user_img = assess_sign(model_name)
-        prediction = get_prediction(sign_list, user_img, classifier)
-        score = compare_signs(chosen_sign, prediction, score, module) # returns new score (incremented by 1 if correct)
+        prediction = get_prediction(sign_name_list, user_img, classifier)
+        score = compare_signs(chosen_sign, prediction, score, module.sign_list) # returns new score (incremented by 1 if correct)
         input("Press enter to continue (in react this will be waiting for 'next' button to be pressed)")
         #print(f"Prediction is {prediction}")
-    print(f"Score: {score}/{len(sign_list)}")
+    print(f"Score: {score}/{len(module.sign_name_list)}")
     update_high_score(score, module)
 
+# Used specifically for learning process
+def learn_sign(module, chosen_sign):
+    score = 0
+    model_name = module.model
+    sign_name_list = create_si_name_list(SI_LIST, module.module_name) # this may have to be used as the sign list in full_process as well
+    classifier = Classifier(f"{model_name}/keras_model.h5", f"{model_name}/labels.txt")
+    print(f"Please Sign {chosen_sign}")
+    user_img = assess_sign(model_name)
+    prediction = get_prediction(sign_name_list, user_img, classifier)
+    score = compare_signs_learn(chosen_sign, prediction, score)  # returns new score (incremented by 1 if correct)
+    if score == 1:
+        add_new_sign(module, chosen_sign)
 
-def compare_signs(system_sign, user_sign, score, mod):
+
+
+
+def compare_signs(system_sign, user_sign, score, sign_list):
     if (system_sign == user_sign):
         print("Correct!")
-        update_sign_data(system_sign, True, mod)
+        update_sign_data(system_sign, True, sign_list)
         score += 1
         # also remove from list or add to a new list for end-of-session testing of missed signs
     elif (user_sign == None):
         print("Sorry! No hand was detected in the frame.")
     else:
-        update_sign_data(system_sign, False, mod)
+        update_sign_data(system_sign, False, sign_list)
         print(f"Sorry! It looks like the sign you made was {user_sign}.")
     return score
 
+#similar function but used in learning process (ignores update)
+def compare_signs_learn(system_sign, user_sign, score):
+    if (system_sign == user_sign):
+        print("Correct!")
+        score += 1
+        # also remove from list or add to a new list for end-of-session testing of missed signs
+    elif (user_sign == None):
+        print("Sorry! No hand was detected in the frame.")
+    else:
+        print(f"Sorry! It looks like the sign you made was {user_sign}.")
+    return score
+
+
+
 # Update sign user data
-def update_sign_data(sign_name, is_correct, module):
+def update_sign_data(sign_name, is_correct, sign_list):
 
     # First get the sign object based on sign name
-    sign = find_sign(sign_name, module.sign_list)
+    sign = find_sign(sign_name, sign_list)
 
     # Update sign information
     sign.assessed_count += 1
@@ -164,7 +196,14 @@ def find_sign(sign_wanted, sign_list):
     raise ValueError("There is no sign with this name within the sign list")
 
 
-
+# Used when a sign is learned to add it to the user's know signs
+def add_new_sign(module, chosen_sign):
+    for s in module.sign_name_list:
+        if s == chosen_sign:
+            return
+    new_sign = Sign(chosen_sign, 0, 0, module.module_name)
+    module.sign_list.append(new_sign) # adding sign to sign list
+    module.sign_name_list.append(new_sign.sign_name) # adding sign name to sign name list
 
 
 

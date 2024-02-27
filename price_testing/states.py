@@ -17,6 +17,7 @@ def main():
     chosen_mod = None # used for keeping track of the module that has been selected by the user
     user_id = "who?"
     user_mod_data = None # will contain a list of module objects (used to keep track of user data)
+    si = None # Represents the current sign selected when in the learning menu
     while state == STATE_NUM_START:
         user_id = input("Please enter username: ")
         if os.path.isfile(f"./{user_id}_data.json") == False:
@@ -47,9 +48,23 @@ def main():
         print(f"\n{chosen_mod.module_name}")
         mod_input = int(input("1. Learn Signs\n2. Assessments\n"))
         if mod_input == 1:
-            print("not yet implemented!") # TODO: ADD
+            state = STATE_SIGN_LIST
         elif mod_input == 2:
             state = STATE_ASSESSMENTS
+
+    while state == STATE_SIGN_LIST:
+        display_signs(chosen_mod, SI_LIST)
+        chosen_sign = input("enter name of sign: ")
+        si = search_si_list(chosen_sign, SI_LIST)
+        state = STATE_SIGN_INFO
+
+    while state == STATE_SIGN_INFO:
+        si.display_sign_info()
+        state_sign_input = input("Try Sign(y/n)?")
+        if state_sign_input == "y":
+            learn_sign(chosen_mod, chosen_sign)
+            save_module_data(user_mod_data, f"{user_id}_data")
+
 
     # Assessments page
     while state == STATE_ASSESSMENTS:
