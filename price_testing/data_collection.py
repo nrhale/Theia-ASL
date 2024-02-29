@@ -19,7 +19,7 @@ counter = 0
 while True:
     success, img = cap.read()
     hands, img = detector.findHands(img)
-    hands_no_overlay, img_no_overlay = detector.mp_findHands(img)
+    #hands, img = detector.mp_findHands(img)
     #result = hands.process(img)
     #hand_la
     #detector.
