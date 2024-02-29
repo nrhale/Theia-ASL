@@ -9,7 +9,7 @@ import math
 #Note: make sure camera access is enabled
 cap = cv2.VideoCapture(0)
 detector = HandDetector(maxHands=1) # may change later
-classifier = Classifier("model_alpha_am/keras_model.h5", "model_alpha_am/labels.txt")
+classifier = Classifier("model_def/keras_model.h5", "model_def/labels.txt")
 
 imgSize= 300
 # create offset for crop size
