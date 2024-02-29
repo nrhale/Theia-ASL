@@ -19,16 +19,20 @@ counter = 0
 while True:
     success, img = cap.read()
     hands, img = detector.findHands(img)
+    #hands, img = detector.mp_findHands(img)
     #result = hands.process(img)
     #hand_la
     #detector.
     if hands:
         hand = hands[0] # because we just have the one hand
         x,y,w,h = hand['bbox'] #gets us all the values
+        #cv2.imshow("hand", hands[0])
+        #detector.results = detector.hands.process(img)
 
         #making all images the same size
 
         imgWhite = np.ones((imgSize, imgSize, 3), np.uint8)*255 #imgSize x imgSize square
+        #cv2.cvtColor(imgWhite, cv2.COLOR_BGR2RGB)
         #np.uint8 restricts it to 8 bits (0 to 255)
         imgCrop = img[y-offset:y+h+offset, x-offset:x+w+offset] #starting height, ending height, starting width, ending width
 

@@ -9,7 +9,7 @@ STATE_MOD = 3
 STATE_ASSESSMENTS = 4
 STATE_SIGN_LIST = 5
 STATE_SIGN_INFO = 6
-
+STATE_SANDBOX = 7
 
 # Some Default information. Will change later
 #s1 = Sign("A", 0, 0, "alphabet1")
@@ -24,7 +24,7 @@ s_list1 = [s2, s3]
 s_list2 = [s4, s5, s6]
 
 mod1 = Module("alphabet1", "model3", s_list1, 0)
-mod2 = Module("alphabet2", "model3", s_list2, 2)
+mod2 = Module("alphabet2", "model_def", s_list2, 2)
 
 # Sign Info (always stays the same)
 

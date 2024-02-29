@@ -1,0 +1,5 @@
+username price
+sign A 0 100 alphabet
+sign B 0 100 alphabet
+sign C 0 100 alphabet
+module alphabet 0
