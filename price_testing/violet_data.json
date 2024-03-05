@@ -1,0 +1,55 @@
+[
+    {
+        "module_name": "alphabet1",
+        "model": "model3",
+        "sign_list": [
+            {
+                "sign_name": "B",
+                "assessed_count": 0,
+                "correct_count": 0,
+                "associated_module": "alphabet1"
+            },
+            {
+                "sign_name": "C",
+                "assessed_count": 0,
+                "correct_count": 0,
+                "associated_module": "alphabet1"
+            }
+        ],
+        "sign_name_list": [
+            "B",
+            "C"
+        ],
+        "high_score": 0
+    },
+    {
+        "module_name": "alphabet2",
+        "model": "model_def",
+        "sign_list": [
+            {
+                "sign_name": "D",
+                "assessed_count": 0,
+                "correct_count": 0,
+                "associated_module": "alphabet2"
+            },
+            {
+                "sign_name": "E",
+                "assessed_count": 0,
+                "correct_count": 0,
+                "associated_module": "alphabet2"
+            },
+            {
+                "sign_name": "F",
+                "assessed_count": 0,
+                "correct_count": 0,
+                "associated_module": "alphabet2"
+            }
+        ],
+        "sign_name_list": [
+            "D",
+            "E",
+            "F"
+        ],
+        "high_score": 2
+    }
+]
