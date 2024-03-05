@@ -153,6 +153,41 @@ def smart_assessment(module):
 
     update_high_score2(score, module)
 
+def rounds_assessment(module):
+    wrong_list = [] # used for storing signs the user got wrong
+    remaining_list = module.sign_name_list.copy()
+    model_name = module.model
+    #sign_name_list = module.sign_name_list
+    sign_name_list = create_si_name_list(SI_LIST, module.module_name)
+    score = 0
+    while len(remaining_list) > 0:
+        classifier = Classifier(f"{model_name}/keras_model.h5", f"{model_name}/labels.txt")
+        chosen_sign = choose_symbol(remaining_list) # also removes from remaining list, but should probably decouple this
+        print(f"Please Sign {chosen_sign}")
+        user_img = assess_sign(model_name)
+        prediction = get_prediction(sign_name_list, user_img, classifier)
+        score_before = score
+        score = compare_signs(chosen_sign, prediction, score, module.sign_list) # returns new score (incremented by 1 if correct)
+        if score == score_before:
+            wrong_list.append(chosen_sign)
+        input("Press enter to continue (in react this will be waiting for 'next' button to be pressed)")
+        #print(f"Prediction is {prediction}")
+    print(f"Score: {score}/{len(module.sign_name_list)}")
+    update_high_score3(score, module)
+    print("REDEMPTION ROUND")
+    while len(wrong_list) > 0:
+        classifier = Classifier(f"{model_name}/keras_model.h5", f"{model_name}/labels.txt")
+        chosen_sign = choose_symbol(wrong_list) # also removes from remaining list, but should probably decouple this
+        print(f"Please Sign {chosen_sign}")
+        user_img = assess_sign(model_name)
+        prediction = get_prediction(sign_name_list, user_img, classifier)
+        score_before = score
+        score = compare_signs(chosen_sign, prediction, score, module.sign_list) # returns new score (incremented by 1 if correct)
+        if score == score_before:
+            wrong_list.append(chosen_sign)
+        input("Press enter to continue (in react this will be waiting for 'next' button to be pressed)")
+        #print(f"Prediction is {prediction}")
+
 def order_sign_by_accuracy(module):
     acc_ordered_list = []
     sign_ordered_list = []
@@ -229,6 +264,7 @@ def update_sign_data(sign_name, is_correct, sign_list):
     if (is_correct == True):
         sign.correct_count += 1
 
+#combine all this into one function later. Just wanted to try quickly
 def update_high_score(score, module):
     if(score > module.high_score):
         print("new high score!")
@@ -238,6 +274,11 @@ def update_high_score2(score, module):
     if(score > module.high_score2):
         print("new high score!")
         module.high_score2 = score
+
+def update_high_score3(score, module):
+    if(score > module.high_score3):
+        print("new high score!")
+        module.high_score3 = score
 
 
 # Find a sign object in a list of Sign objects when given its name
@@ -289,13 +330,13 @@ if __name__ == "__main__":
 
     sign_list = ["A", "B", "C"]
     """
-    loaded_modules = load_module_objects("czarnuch_data")
+    loaded_modules = load_module_objects("bill_data")
     username = "price"
     #loaded_module_list, loaded_sign_list = load_user_data(f"{username}.json")
 
     #full_process(loaded_modules[0])
-    smart_assessment(loaded_modules[0])
-    save_module_data(loaded_modules, "czarnuch_data")
+    rounds_assessment(loaded_modules[0])
+    save_module_data(loaded_modules, "bill_data")
     print("hi")
 
 
