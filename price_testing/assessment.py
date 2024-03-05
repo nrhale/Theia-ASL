@@ -77,6 +77,11 @@ def choose_symbol(sym_list):
     sym_list.remove(chosen_sym) #should probably be done after
     return chosen_sym
 
+def smart_choose(sym_list):
+    chosen_sym = sym_list[0]
+    sym_list.remove(chosen_sym) #should probably be done after
+    return chosen_sym
+
 # returns the associated sign predicted from an image
 def get_prediction(sign_list, image, classifier):
     if image is None:
@@ -127,6 +132,47 @@ def full_process(module):
         #print(f"Prediction is {prediction}")
     print(f"Score: {score}/{len(module.sign_name_list)}")
     update_high_score(score, module)
+
+def smart_assessment(module):
+
+    remaining_list = order_sign_by_accuracy(module)
+    model_name = module.model
+    #sign_name_list = module.sign_name_list
+    sign_name_list = create_si_name_list(SI_LIST, module.module_name)
+    score = 0
+    while len(remaining_list) > 0:
+        classifier = Classifier(f"{model_name}/keras_model.h5", f"{model_name}/labels.txt")
+        chosen_sign = smart_choose(remaining_list) # also removes from remaining list, but should probably decouple this
+        print(f"Please Sign {chosen_sign}")
+        user_img = assess_sign(model_name)
+        prediction = get_prediction(sign_name_list, user_img, classifier)
+        score = compare_signs(chosen_sign, prediction, score, module.sign_list) # returns new score (incremented by 1 if correct)
+        input("Press enter to continue (in react this will be waiting for 'next' button to be pressed)")
+        #print(f"Prediction is {prediction}")
+    print(f"Score: {score}/{len(module.sign_name_list)}")
+    update_high_score(score, module)
+
+def order_sign_by_accuracy(module):
+    acc_ordered_list = []
+    sign_ordered_list = []
+    for sign in module.sign_list:
+        if sign.assessed_count == 0:
+            acc_ordered_list.insert(0, 0)
+            sign_ordered_list.insert(0, sign.sign_name)
+        elif len(acc_ordered_list) == 0:
+            acc = sign.correct_count / sign.assessed_count
+            sign_ordered_list.append(sign.sign_name)
+            acc_ordered_list.append(acc)
+        else:
+            acc = sign.correct_count/sign.assessed_count
+            for i in range(0, len(acc_ordered_list)):
+                if acc <= acc_ordered_list[i]:
+                    acc_ordered_list.insert(i, acc)
+                    sign_ordered_list.insert(i, sign.sign_name)
+                    break
+    return sign_ordered_list
+
+
 
 # Used specifically for learning process
 def learn_sign(module, chosen_sign):
@@ -237,12 +283,13 @@ if __name__ == "__main__":
 
     sign_list = ["A", "B", "C"]
     """
-    loaded_modules = load_module_objects("mod_user_data")
+    loaded_modules = load_module_objects("czarnuch_data")
     username = "price"
     #loaded_module_list, loaded_sign_list = load_user_data(f"{username}.json")
 
-    full_process(loaded_modules[0])
-    save_module_data(loaded_modules, "mp_data")
+    #full_process(loaded_modules[0])
+    smart_assessment(loaded_modules[0])
+    save_module_data(loaded_modules, "czarnuch_data")
     print("hi")
 
 

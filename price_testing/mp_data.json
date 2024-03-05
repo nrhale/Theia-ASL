@@ -5,20 +5,20 @@
         "sign_list": [
             {
                 "sign_name": "A",
-                "assessed_count": 15,
-                "correct_count": 13,
+                "assessed_count": 17,
+                "correct_count": 15,
                 "associated_module": "alphabet1"
             },
             {
                 "sign_name": "B",
-                "assessed_count": 10,
-                "correct_count": 8,
+                "assessed_count": 12,
+                "correct_count": 10,
                 "associated_module": "alphabet1"
             },
             {
                 "sign_name": "C",
-                "assessed_count": 14,
-                "correct_count": 8,
+                "assessed_count": 17,
+                "correct_count": 11,
                 "associated_module": "alphabet1"
             }
         ],
@@ -27,7 +27,7 @@
             "B",
             "C"
         ],
-        "high_score": 3
+        "high_score": 4
     },
     {
         "module_name": "alphabet2",
