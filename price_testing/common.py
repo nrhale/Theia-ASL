@@ -36,15 +36,21 @@ with open('descriptions.txt', 'r') as file:
             item, description = line.split(': ', 1)  # Split on the first colon found
             descriptions[item.strip()] = description.strip()
 
+# Re-open the file and process each line to extract urls
+with open('video_urls.txt', 'r') as file:
+    for line in file:
+        if ': ' in line:  # Ensure the line contains a colon to separate the item and its description
+            item, urls = line.split(': ', 1)  # Split on the first colon found
+            urls[item.strip()] = urls.strip()
+            
 # Sign Info (always stays the same)
+siA = SignInfo("A", descriptions.get('A'), urls.get('A'), "../asl_images/letter_a.svg", "alphabet1")
+siB = SignInfo("B", descriptions.get('B'), urls.get('B'), "../asl_images/letter_b.svg", "alphabet1")
+siC = SignInfo("C", descriptions.get('C'), urls.get('C'), "../asl_images/letter_c.svg", "alphabet1")
 
-siA = SignInfo("A", descriptions.get('A'), "*video_loc for A*", "*image_loc for A*", "alphabet1")
-siB = SignInfo("B", descriptions.get('B'), "*video_loc for B*", "*image_loc for B*", "alphabet1")
-siC = SignInfo("C", descriptions.get('C'), "*video_loc for C*", "*image_loc for C*", "alphabet1")
-
-siD = SignInfo("D", descriptions.get('D'), "*video_loc for D*", "*image_loc for D*", "alphabet2")
-siE = SignInfo("E", descriptions.get('E'), "*video_loc for E*", "*image_loc for E*", "alphabet2")
-siF = SignInfo("F", descriptions.get('F'), "*video_loc for F*", "*image_loc for F*", "alphabet2")
+siD = SignInfo("D", descriptions.get('D'), urls.get('D'), "../asl_images/letter_d.svg", "alphabet2")
+siE = SignInfo("E", descriptions.get('E'), urls.get('E'), "../asl_images/letter_e.svg", "alphabet2")
+siF = SignInfo("F", descriptions.get('F'), urls.get('F'), "../asl_images/letter_f.svg", "alphabet2")
 
 SI_LIST = [siA, siB, siC, siD, siE, siF]
 
