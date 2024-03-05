@@ -150,7 +150,8 @@ def smart_assessment(module):
         input("Press enter to continue (in react this will be waiting for 'next' button to be pressed)")
         #print(f"Prediction is {prediction}")
     print(f"Score: {score}/{len(module.sign_name_list)}")
-    update_high_score(score, module)
+
+    update_high_score2(score, module)
 
 def order_sign_by_accuracy(module):
     acc_ordered_list = []
@@ -232,6 +233,11 @@ def update_high_score(score, module):
     if(score > module.high_score):
         print("new high score!")
         module.high_score = score
+
+def update_high_score2(score, module):
+    if(score > module.high_score2):
+        print("new high score!")
+        module.high_score2 = score
 
 
 # Find a sign object in a list of Sign objects when given its name

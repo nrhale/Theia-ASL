@@ -79,7 +79,7 @@ def main():
         while state == STATE_ASSESSMENTS:
             print("\n\nASSESSMENTS\n")
             # TODO: Make it a list of assessments, add new high score variables to JSON
-            print(f"1. Basic Assessment (high score: {chosen_mod.high_score})\n2. Smart Assessment (high score: {chosen_mod.high_score})")
+            print(f"1. Basic Assessment (high score: {chosen_mod.high_score})\n2. Smart Assessment (high score: {chosen_mod.high_score2})")
             assess_num = int(input("Choose an assessment:"))
             if assess_num == 1:
                 full_process(chosen_mod)

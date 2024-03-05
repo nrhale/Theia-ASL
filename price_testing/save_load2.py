@@ -11,12 +11,13 @@ class Sign:
 
 # Used for storing module information. Updated throughout assessments
 class Module:
-    def __init__(self, module_name, model, sign_list=[], high_score=0):
+    def __init__(self, module_name, model, sign_list=[], high_score=0, high_score2=0):
         self.module_name = module_name
         self.model = model
         self.sign_list = sign_list
         self.sign_name_list = self.get_sign_names()
         self.high_score = high_score
+        self.high_score2 = high_score2
 
     # Get a list of signs names so that the actual sign_list doesn't have to make one each assessment
     def get_sign_names(self):
@@ -61,7 +62,7 @@ def load_mod_user_data(loaded_module_dicts):
             new_sign = Sign(sign['sign_name'], sign['assessed_count'], sign['correct_count'], sign['associated_module'])
             s_list.append(new_sign)
 
-        new_mod = Module(module_dict['module_name'], module_dict['model'], s_list, module_dict['high_score'])
+        new_mod = Module(module_dict['module_name'], module_dict['model'], s_list, module_dict['high_score'], module_dict['high_score2'])
         mods.append(new_mod)
     return mods
 
