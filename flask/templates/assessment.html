@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Module {{ module }}: Assessment {{ assessmentNumber }} - TheiaASL</title>
+    <title>
+      Module {{ module }}: Assessment {{ assessmentType }} - TheiaASL
+    </title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
   </head>
   <body>
-    <h1>Module {{ module }}: Assessment {{ assessmentNumber }}</h1>
+    <h1>Module {{ module }}: {{ assessmentType }} Assessment</h1>
   </body>
 </html>
