@@ -26,15 +26,25 @@ s_list2 = [s4, s5, s6]
 mod1 = Module("alphabet1", "model3", s_list1, 0)
 mod2 = Module("alphabet2", "model_def", s_list2, 2)
 
+# Extract descriptions from descriptions.txt
+descriptions = {}
+
+# Re-open the file and process each line to extract descriptions
+with open('descriptions.txt', 'r') as file:
+    for line in file:
+        if ': ' in line:  # Ensure the line contains a colon to separate the item and its description
+            item, description = line.split(': ', 1)  # Split on the first colon found
+            descriptions[item.strip()] = description.strip()
+
 # Sign Info (always stays the same)
 
-siA = SignInfo("A", "*text desc A*", "*video_loc for A*", "*image_loc for A*", "alphabet1")
-siB = SignInfo("B", "*text desc B*", "*video_loc for B*", "*image_loc for B*", "alphabet1")
-siC = SignInfo("C", "*text desc C*", "*video_loc for C*", "*image_loc for C*", "alphabet1")
+siA = SignInfo("A", descriptions.get('A'), "*video_loc for A*", "*image_loc for A*", "alphabet1")
+siB = SignInfo("B", descriptions.get('B'), "*video_loc for B*", "*image_loc for B*", "alphabet1")
+siC = SignInfo("C", descriptions.get('C'), "*video_loc for C*", "*image_loc for C*", "alphabet1")
 
-siD = SignInfo("D", "*text desc D*", "*video_loc for D*", "*image_loc for D*", "alphabet2")
-siE = SignInfo("E", "*text desc E*", "*video_loc for E*", "*image_loc for E*", "alphabet2")
-siF = SignInfo("F", "*text desc F*", "*video_loc for F*", "*image_loc for F*", "alphabet2")
+siD = SignInfo("D", descriptions.get('D'), "*video_loc for D*", "*image_loc for D*", "alphabet2")
+siE = SignInfo("E", descriptions.get('E'), "*video_loc for E*", "*image_loc for E*", "alphabet2")
+siF = SignInfo("F", descriptions.get('F'), "*video_loc for F*", "*image_loc for F*", "alphabet2")
 
 SI_LIST = [siA, siB, siC, siD, siE, siF]
 
