@@ -29,6 +29,9 @@ mod2 = Module("alphabet2", "model_def", s_list2, 2)
 # Extract descriptions from descriptions.txt
 descriptions = {}
 
+# Extract urls from video_urls.txt
+urls = {}
+
 # Re-open the file and process each line to extract descriptions
 with open('descriptions.txt', 'r') as file:
     for line in file:
@@ -40,8 +43,8 @@ with open('descriptions.txt', 'r') as file:
 with open('video_urls.txt', 'r') as file:
     for line in file:
         if ': ' in line:  # Ensure the line contains a colon to separate the item and its description
-            item, urls = line.split(': ', 1)  # Split on the first colon found
-            urls[item.strip()] = urls.strip()
+            item, url = line.split(': ', 1)  # Split on the first colon found
+            urls[item.strip()] = url.strip()
             
 # Sign Info (always stays the same)
 siA = SignInfo("A", descriptions.get('A'), urls.get('A'), "../asl_images/letter_a.svg", "alphabet1")
