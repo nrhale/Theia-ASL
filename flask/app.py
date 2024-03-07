@@ -1,4 +1,10 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
+import json
+from static.data.modules import get_modules
+from static.data.assessments import get_assessments
+
+username = None
+
 
 app = Flask(__name__)
 
@@ -8,19 +14,26 @@ def login():
     return render_template("login.html")
 
 
-@app.route("/home")
+@app.route("/home", methods=["POST"])
 def home():
-    return render_template("home.html")
+    global username
+    username = request.form["username"]
+    return render_template("home.html", username=username)
 
 
 @app.route("/statistics")
 def statistics():
-    return render_template("statistics.html")
+    # TODO: Do not hardcode the path
+    with open("../price_testing/mp_data.json") as f:
+        statistics = json.load(f)
+    return render_template("statistics.html", username=username, statistics=statistics)
 
 
 @app.route("/modules")
 def modules():
-    return render_template("modules.html")
+    modules = get_modules()
+    assessments = get_assessments()
+    return render_template("modules.html", modules=modules, assessments=assessments)
 
 
 @app.route("/learn/<module>/<sign>")

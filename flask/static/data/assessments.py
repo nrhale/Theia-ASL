@@ -1,5 +1,6 @@
-assessments = [
-    "Basic Assessment",
-    "Smart Assessment",
-    "Redemption Assessment",
-]
+def get_assessments():
+    return [
+        "Basic Assessment",
+        "Smart Assessment",
+        "Redemption Assessment",
+    ]
