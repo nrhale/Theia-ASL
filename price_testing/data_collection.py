@@ -13,13 +13,13 @@ imgSize= 300
 # create offset for crop size
 offset = 20
 
-folder = "custom_images/2y"
+folder = "custom_images/2i"
 counter = 0
 
 while True:
     success, img = cap.read()
-    #hands, img = detector.findHands(img)
-    hands, img = detector.mp_findHands(img)
+    hands, img = detector.findHands(img)
+    #hands, img = detector.mp_findHands(img)
     #result = hands.process(img)
     #hand_la
     #detector.

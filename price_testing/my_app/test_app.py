@@ -1,4 +1,4 @@
-# app.py
+# test_app.py
 
 from flask import Flask, render_template
 
