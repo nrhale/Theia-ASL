@@ -24,7 +24,7 @@ def main():
             user_id = input("Please enter username: ")
             if os.path.isfile(f"./{user_id}_data.json") == False:
                 print("new user!")
-                mod_list = [mod1, mod2] # from common. Load new user with starter modules
+                mod_list = [MOD1, MOD2, MOD3, MOD4] # from common. Load new user with starter modules
                 save_module_data(mod_list, f"{user_id}_data")
             user_mod_data = load_module_objects(f"{user_id}_data")
             state = STATE_HOME
@@ -48,13 +48,16 @@ def main():
         # module page
         while state == STATE_MOD:
             print(f"\n{chosen_mod.module_name}")
-            mod_input = int(input("1. Learn Signs\n2. Assessments\n3. Sandbox"))
-            if mod_input == 1:
+            mod_input = input("1. Learn Signs\n2. Assessments\n3. Sandbox")
+            if mod_input == "1":
                 state = STATE_SIGN_LIST
-            elif mod_input == 2:
+            elif mod_input == "2":
                 state = STATE_ASSESSMENTS
-            elif mod_input == 3:
+            elif mod_input == "3":
                 state = STATE_SANDBOX
+            elif mod_input == "back":
+                state = STATE_MOD_LIST
+
 
         while state == STATE_SANDBOX:
             sandbox(chosen_mod)
@@ -64,8 +67,11 @@ def main():
         while state == STATE_SIGN_LIST:
             display_signs(chosen_mod, SI_LIST)
             chosen_sign = input("enter name of sign: ")
-            si = search_si_list(chosen_sign, SI_LIST)
-            state = STATE_SIGN_INFO
+            if chosen_sign == "back":
+                state = STATE_MOD
+            else:
+                si = search_si_list(chosen_sign, SI_LIST)
+                state = STATE_SIGN_INFO
 
         while state == STATE_SIGN_INFO:
             si.display_sign_info()
@@ -73,6 +79,8 @@ def main():
             if state_sign_input == "y":
                 learn_sign(chosen_mod, chosen_sign)
                 save_module_data(user_mod_data, f"{user_id}_data")
+            elif state_sign_input == "n":
+                state = STATE_SIGN_LIST
 
 
         # Assessments page
@@ -80,16 +88,19 @@ def main():
             print("\n\nASSESSMENTS\n")
             # TODO: Make it a list of assessments, add new high score variables to JSON
             print(f"1. Basic Assessment (high score: {chosen_mod.high_score})\n2. Smart Assessment (high score: {chosen_mod.high_score2})\n3. Redemption Assessment (high score: {chosen_mod.high_score3})")
-            assess_num = int(input("Choose an assessment:"))
-            if assess_num == 1:
+            assess_num = (input("Choose an assessment:"))
+            if assess_num == "1":
                 full_process(chosen_mod)
                 save_module_data(user_mod_data, f"{user_id}_data")
-            if assess_num == 2:
+            elif assess_num == "2":
                 smart_assessment(chosen_mod)
                 save_module_data(user_mod_data, f"{user_id}_data")
-            if assess_num == 3:
+            elif assess_num == "3":
                 rounds_assessment(chosen_mod)
                 save_module_data(user_mod_data, f"{user_id}_data")
+            elif assess_num == "back":
+                state = STATE_MOD
+
     if(user_mod_data == None):
         print("yeah")
     else:
