@@ -34,7 +34,7 @@ MOD1 = Module("The Alphabet I", "valid_alphabet_a_to_f", s_list1, 0)
 MOD2 = Module("The Alphabet II", "valid_alphabet_g_to_m", s_list2, 0)
 MOD3 = Module("The Alphabet III", "valid_alphabet_n_to_s", s_list3, 0)
 MOD4 = Module("The Alphabet IV", "valid_alphabet_t_to_y", s_list4, 0)
-MOD5 = Module("Numbers I: Even Numbers", "valid_num_even", s_list5, 0)
+MOD5 = Module("Numbers I: Even Numbers", "valid_num_even2", s_list5, 0)
 MOD6 = Module("Numbers II: Odd Numbers", "valid_num_odd2", s_list6, 0)
 
 ALL_MODS = [MOD1, MOD2, MOD3, MOD4, MOD5, MOD6] # Currently use mod_list in states instead

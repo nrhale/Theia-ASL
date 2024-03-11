@@ -9,7 +9,7 @@ import math
 #Note: make sure camera access is enabled
 cap = cv2.VideoCapture(0)
 detector = HandDetector(maxHands=1) # may change later
-classifier = Classifier("num59_3/keras_model.h5", "num59_3/labels.txt")
+classifier = Classifier("valid_num_even2/keras_model.h5", "valid_num_even2/labels.txt")
 
 imgSize= 300
 # create offset for crop size
