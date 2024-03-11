@@ -13,7 +13,7 @@ imgSize= 300
 # create offset for crop size
 offset = 20
 
-folder = "custom_images/2i"
+folder = "custom_images/num5"
 counter = 0
 
 while True:

@@ -188,6 +188,34 @@ def rounds_assessment(module):
         input("Press enter to continue (in react this will be waiting for 'next' button to be pressed)")
         #print(f"Prediction is {prediction}")
 
+def survival_assessment(module):
+    lives_left = LIVES
+    score = 0
+    ##print(f"Lives: {lives_left}")
+    while lives_left > 0:
+        print(f"Lives: {lives_left}")
+        remaining_list = module.sign_name_list.copy()
+        model_name = module.model
+        #sign_name_list = module.sign_name_list
+        sign_name_list = create_si_name_list(SI_LIST, module.module_name)
+        while len(remaining_list) > 0:
+            classifier = Classifier(f"{model_name}/keras_model.h5", f"{model_name}/labels.txt")
+            chosen_sign = choose_symbol(remaining_list) # also removes from remaining list, but should probably decouple this
+            print(f"Please Sign {chosen_sign}")
+            user_img = assess_sign(model_name)
+            prediction = get_prediction(sign_name_list, user_img, classifier)
+            score_before = score
+            score = compare_signs(chosen_sign, prediction, score,
+                                  module.sign_list)  # returns new score (incremented by 1 if correct)
+            if score == score_before:
+                print("Life Lost!")
+                lives_left -= 1
+                if lives_left <= 0:
+                    break
+            input("Press enter to continue (in react this will be waiting for 'next' button to be pressed)")
+            #print(f"Prediction is {prediction}")
+    print(f"Score: {score}/{len(module.sign_name_list)}")
+    update_high_score4(score, module)
 def order_sign_by_accuracy(module):
     acc_ordered_list = []
     sign_ordered_list = []
@@ -280,6 +308,11 @@ def update_high_score3(score, module):
         print("new high score!")
         module.high_score3 = score
 
+def update_high_score4(score, module):
+    if(score > module.high_score4):
+        print("new high score!")
+        module.high_score4 = score
+
 
 # Find a sign object in a list of Sign objects when given its name
 def find_sign(sign_wanted, sign_list):
@@ -330,13 +363,13 @@ if __name__ == "__main__":
 
     sign_list = ["A", "B", "C"]
     """
-    loaded_modules = load_module_objects("bill_data")
+    loaded_modules = load_module_objects("oddy_data")
     username = "price"
     #loaded_module_list, loaded_sign_list = load_user_data(f"{username}.json")
 
     #full_process(loaded_modules[0])
-    rounds_assessment(loaded_modules[0])
-    save_module_data(loaded_modules, "bill_data")
+    survival_assessment(loaded_modules[0])
+    save_module_data(loaded_modules, "oddy_data")
     print("hi")
 
 
