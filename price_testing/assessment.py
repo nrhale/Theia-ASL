@@ -7,9 +7,9 @@ from cvzone.ClassificationModule import Classifier
 import numpy as np
 import math
 
-from save_load2 import*
-from sign_info import*
-from common import*
+from price_testing.save_load2 import*
+from price_testing.sign_info import*
+from price_testing.common import*
 
 TIMER_TIME = 3
 
@@ -33,26 +33,30 @@ def capture_video(cap, detector, imgSize, classifier):
 
         aspectRatio = h / w
 
+
         if aspectRatio > 1:
-            k = imgSize / h
-            wCal = math.ceil(k * w)
-            imgResize = cv2.resize(imgCrop, (wCal, imgSize))
-            imgResizeShape = imgResize.shape
-            wGap = math.ceil((imgSize - wCal) / 2)
-            imgWhite[:, wGap:wCal + wGap] = imgResize
-            prediction, index = classifier.getPrediction(imgWhite)
-            #letter_seen = labels[index]
-            #print(f"Detected letter: {letter_seen}")
-            #print(prediction, index)
-        # print(index)
+            try:
+                k = imgSize / h
+                wCal = math.ceil(k * w)
+                imgResize = cv2.resize(imgCrop, (wCal, imgSize))
+                imgResizeShape = imgResize.shape
+                wGap = math.ceil((imgSize - wCal) / 2)
+                imgWhite[:, wGap:wCal + wGap] = imgResize
+                prediction, index = classifier.getPrediction(imgWhite)
+                #letter_seen = labels[index]
+                #print(f"Detected letter: {letter_seen}")
+                #print(prediction, index)
+            # print(index)
+            except:
+                print("get back in range")
 
         else:
-            k = imgSize / w
-            hCal = math.ceil(k * h)
-            imgResize = cv2.resize(imgCrop, (imgSize, hCal))
-            imgResizeShape = imgResize.shape
-            hGap = math.ceil((imgSize - hCal) / 2)
             try:
+                k = imgSize / w
+                hCal = math.ceil(k * h)
+                imgResize = cv2.resize(imgCrop, (imgSize, hCal))
+                imgResizeShape = imgResize.shape
+                hGap = math.ceil((imgSize - hCal) / 2)
                 imgWhite[hGap:hCal + hGap, :] = imgResize
                 print("yo")
                 prediction, index = classifier.getPrediction(imgWhite)

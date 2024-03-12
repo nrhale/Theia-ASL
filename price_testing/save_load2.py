@@ -115,6 +115,12 @@ def list_modules(loaded_modules):
     else:
         list_modules(loaded_modules)
 
+def search_mod_for_name(name, loaded_modules):
+    for mod in loaded_modules:
+        if mod.module_name == name:
+            return mod
+    print("ERROR: Module name wasn't detected")
+
 
 
 
