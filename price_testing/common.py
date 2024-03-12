@@ -1,6 +1,6 @@
 # Constant Variables
-from save_load2 import*
-from sign_info import*
+from price_testing.save_load2 import*
+from price_testing.sign_info import*
 
 STATE_NUM_START = 0
 STATE_HOME = 1
@@ -46,14 +46,14 @@ descriptions = {}
 urls = {}
 
 # Re-open the file and process each line to extract descriptions
-with open('descriptions.txt', 'r') as file:
+with open('../price_testing/descriptions.txt', 'r') as file:
     for line in file:
         if ': ' in line:  # Ensure the line contains a colon to separate the item and its description
             item, description = line.split(': ', 1)  # Split on the first colon found
             descriptions[item.strip()] = description.strip()
 
 # Re-open the file and process each line to extract urls
-with open('video_urls.txt', 'r') as file:
+with open('../price_testing/video_urls.txt', 'r') as file:
     for line in file:
         if ': ' in line:  # Ensure the line contains a colon to separate the item and its description
             item, url = line.split(': ', 1)  # Split on the first colon found

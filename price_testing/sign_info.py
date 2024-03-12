@@ -13,7 +13,7 @@ module_name
 
 This will be used for the process of learning signs
 """
-from save_load2 import*
+from price_testing.save_load2 import*
 
 class SignInfo:
     def __init__(self, name, text_desc, video_loc, image_loc, module_name):

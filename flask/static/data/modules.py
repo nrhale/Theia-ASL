@@ -1,11 +1,11 @@
 def get_modules():
     return [
         {
-            "name": "Alphabet 1",
-            "signs": ["A", "B", "C"],
+            "name": "The Alphabet I",
+            "signs": ["A", "B", "C", "D", "E", "F"],
         },
         {
-            "name": "Alphabet 2",
-            "signs": ["D", "E", "F"],
+            "name": "The Alphabet II",
+            "signs": ["G", "H", "I", "K", "L", "M"],
         },
     ]

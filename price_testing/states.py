@@ -22,10 +22,10 @@ def main():
     while True:
         while state == STATE_NUM_START:
             user_id = input("Please enter username: ")
-            if os.path.isfile(f"./{user_id}_data.json") == False:
+            if os.path.isfile(f"../user_files/{user_id}_data.json") == False:
                 print("new user!")
                 mod_list = [MOD1, MOD2, MOD3, MOD4, MOD5, MOD6] # from common. Load new user with starter modules
-                save_module_data(mod_list, f"{user_id}_data")
+                save_module_data(mod_list, f"../user_files/{user_id}_data")
             user_mod_data = load_module_objects(f"{user_id}_data")
             state = STATE_HOME
 
@@ -60,7 +60,7 @@ def main():
 
 
         while state == STATE_SANDBOX:
-            sandbox(chosen_mod)
+            run_sandbox(chosen_mod)
             state = STATE_MOD
 
 
