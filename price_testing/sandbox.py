@@ -5,14 +5,14 @@ from cvzone.ClassificationModule import Classifier
 import numpy as np
 import math
 import keyboard
-from sign_info import*
-from common import*
+from price_testing.sign_info import*
+from price_testing.common import*
 
 #0 is id number of webcam
 #Note: make sure camera access is enabled
-def sandbox(module):
+def run_sandbox(module):
     labels = create_si_name_list(SI_LIST, module.module_name)
-    #labels = module.sign_name_list
+
     cap = cv2.VideoCapture(0)
     detector = HandDetector(maxHands=1) # may change later
 
@@ -21,12 +21,6 @@ def sandbox(module):
     imgSize= 300
     # create offset for crop size
     offset = 20
-
-    #folder = "custom_images/C"
-    #counter = 0
-
-    #labels = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y"]
-    # j missing above (dynamic)
     lol = True
 
     while lol == True:
@@ -39,12 +33,9 @@ def sandbox(module):
             #making all images the same size
 
             imgWhite = np.ones((imgSize, imgSize, 3), np.uint8)*255 #imgSize x imgSize square
-            #np.uint8 restricts it to 8 bits (0 to 255)
             imgCrop = img[y-offset:y+h+offset, x-offset:x+w+offset] #starting height, ending height, starting width, ending width
 
             imgCropShape = imgCrop.shape
-            #imgWhite[0:imgCropShape[0], 0:imgCropShape[1]] = imgCrop
-
             aspectRatio = h/w
 
             if aspectRatio > 1:
@@ -57,9 +48,6 @@ def sandbox(module):
                 prediction,index = classifier.getPrediction(imgWhite)
                 letter_seen = labels[index]
                 print(f"Detected letter: {letter_seen}")
-                #print(prediction, index)
-               # print(index)
-
             else:
                 k = imgSize/w
                 hCal = math.ceil(k*h)
@@ -68,23 +56,12 @@ def sandbox(module):
                 hGap = math.ceil((imgSize-hCal)/2)
                 try:
                     imgWhite[hGap:hCal+hGap, :] = imgResize
-                    #print("yo")
                     prediction, index = classifier.getPrediction(imgWhite)
                     letter_seen = labels[index]
                     print(f"Detected letter: {letter_seen}")
-                    #print(prediction, index)
                 except:
                     print("get back in range")
 
-
-
-
-
-
-
-
-            #cv2.imshow("ImageCrop", imgCrop)
-            #cv2.imshow("ImageOverlay", imgWhite)
         cv2.imshow("Image", img)
         key = cv2.waitKey(1)
         if keyboard.is_pressed('z'):
@@ -92,5 +69,5 @@ def sandbox(module):
             cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    sandbox()
+    run_sandbox()
 

@@ -43,14 +43,14 @@ def save_module_data(modules, file_name):
     json_data = json.dumps(modules, default=custom_serializer, indent=4)
 
     # Save to a file
-    with open(f"{file_name}.json", "w+") as json_file:
+    with open(f"../user_files/{file_name}.json", "w+") as json_file:
         json_file.write(json_data)
 
 # Loading the module data to dictionary (must call load_mod_user_data after). Note: This is an internal function and
 # likely does not ever have to be called directly
 def load_module_data_dict(file_name):
     # Load data from the JSON file
-    with open(f"{file_name}.json", "r+") as json_file:
+    with open(f"../user_files/{file_name}.json", "r+") as json_file:
         loaded_modules_dicts = json.load(json_file)
         return loaded_modules_dicts
 
@@ -85,6 +85,16 @@ def print_module_stats_dict(loaded_modules_dict):
 
 # prints the user stats to the console for each sign
 def print_module_stats(loaded_modules):
+    for mod in loaded_modules:
+        print(f"\nModule name: {mod.module_name}")
+        for sign in mod.sign_list:
+            if sign.assessed_count == 0:
+                accuracy = 0
+            else:
+                accuracy = round(sign.correct_count / sign.assessed_count * 100)
+            print(f"Sign: {sign.sign_name}, Times Asked: {sign.assessed_count}, Accuracy: {accuracy}%")
+
+def string_module_stats(loaded_modules):
     for mod in loaded_modules:
         print(f"\nModule name: {mod.module_name}")
         for sign in mod.sign_list:
