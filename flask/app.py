@@ -1,6 +1,15 @@
-from flask import Flask, render_template, request
+# built-in packages
 import json
+import sys
+import os
 
+# pip packages
+from flask import Flask, render_template, request
+
+# Add the parent directory to the path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+# Our packages
 from price_testing.sandbox import run_sandbox
 from static.data.modules import get_modules
 from static.data.assessments import get_assessments
