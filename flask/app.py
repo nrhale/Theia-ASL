@@ -63,12 +63,12 @@ def modules():
 
 
 @app.route("/learn/<module>/<sign>")
-def learn(module, sign):
+def learn(module, sign, result="No Result Yet"):
     global chosen_mod
     chosen_mod = search_mod_for_name(module, user_mod_data)
     global chosen_sign
     chosen_sign = sign
-    return render_template("learn.html", module=module, sign=sign)
+    return render_template("learn.html", module=module, sign=sign, result=result)
 
 
 @app.route("/assessment/<module>/<assessmentType>")
@@ -96,13 +96,13 @@ def run_sandbox_f():
     result = run_sandbox(chosen_mod)  # Replace with your function call
     return f"Sandbox executed with result: {result}"
 
-@app.route('/run_learn_sign_f', methods=['POST'])
-def run_learn_sign_f():
+@app.route('/<module>/<sign>/run_learn_sign_f', methods=['POST'])
+def run_learn_sign_f(module, sign):
     # Call your run_sandbox(chosen_mod) function here
     # Replace the following line with your actual logic
-    learn_sign(chosen_mod, chosen_sign)  # Replace with your function call
+    res = learn_sign(chosen_mod, chosen_sign)  # Replace with your function call
     save_module_data(user_mod_data, f"{username}_data")
-    return f"Data Saved"
+    return render_template("learn.html", module=module, sign=sign, result=res)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Run Full Process</title>
+</head>
+<body>
+    <h1>Run Full Process</h1>
+    <button onclick="runFullProcess()">Run</button>
+    <p id="result"></p>
+
+    <script>
+        async function runFullProcess() {
+            const response = await fetch('/run_full_process', { method: 'POST' });
+            const data = await response.json();
+            document.getElementById('result').textContent = data.result;
+        }
+    </script>
+</body>
+</html>

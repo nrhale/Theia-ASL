@@ -29,10 +29,8 @@ def capture_video(cap, detector, imgSize, classifier):
                   x - offset:x + w + offset]  # starting height, ending height, starting width, ending width
 
         imgCropShape = imgCrop.shape
-        # imgWhite[0:imgCropShape[0], 0:imgCropShape[1]] = imgCrop
 
         aspectRatio = h / w
-
 
         if aspectRatio > 1:
             try:
@@ -43,9 +41,6 @@ def capture_video(cap, detector, imgSize, classifier):
                 wGap = math.ceil((imgSize - wCal) / 2)
                 imgWhite[:, wGap:wCal + wGap] = imgResize
                 prediction, index = classifier.getPrediction(imgWhite)
-                #letter_seen = labels[index]
-                #print(f"Detected letter: {letter_seen}")
-                #print(prediction, index)
             # print(index)
             except:
                 print("get back in range")
@@ -60,9 +55,6 @@ def capture_video(cap, detector, imgSize, classifier):
                 imgWhite[hGap:hCal + hGap, :] = imgResize
                 #print("yo")
                 prediction, index = classifier.getPrediction(imgWhite)
-                #letter_seen = labels[index]
-                #print(f"Detected letter: {letter_seen}")
-                #print(prediction, index)
             except:
                 print("get back in range")
 
@@ -74,6 +66,12 @@ def capture_video(cap, detector, imgSize, classifier):
     key = cv2.waitKey(1)
     return imgWhite
 
+def show_video(cap, detector):
+    offset = 20
+    success, img = cap.read()
+    hands, img = detector.findHands(img)
+    cv2.imshow("Image", img)
+    key = cv2.waitKey(1)
 
 # Choosing a random symbol from sign list
 def choose_symbol(sym_list):
@@ -216,6 +214,7 @@ def survival_assessment(module):
                 lives_left -= 1
                 if lives_left <= 0:
                     break
+            cv2.destroyAllWindows()
             input("Press enter to continue (in react this will be waiting for 'next' button to be pressed)")
             #print(f"Prediction is {prediction}")
     print(f"Score: {score}/{len(module.sign_name_list)}")
@@ -254,7 +253,13 @@ def learn_sign(module, chosen_sign):
     score = compare_signs_learn(chosen_sign, prediction, score)  # returns new score (incremented by 1 if correct)
     if score == 1:
         add_new_sign(module, chosen_sign)
-
+        result = f"Correct! The '{chosen_sign}' sign has now been added to your list of known signs. It will now show up in this module's assessments!"
+    else:
+        if prediction == None:
+            result = "Sorry! No hand was detected in the frame."
+        else:
+            result = f"Sorry! It looks like the sign you made was {prediction}."
+    return result
 
 
 
@@ -367,13 +372,13 @@ if __name__ == "__main__":
 
     sign_list = ["A", "B", "C"]
     """
-    loaded_modules = load_module_objects("oddy_data")
+    loaded_modules = load_module_objects("olly_data")
     username = "price"
     #loaded_module_list, loaded_sign_list = load_user_data(f"{username}.json")
 
     #full_process(loaded_modules[0])
     survival_assessment(loaded_modules[0])
-    save_module_data(loaded_modules, "oddy_data")
+    save_module_data(loaded_modules, "olly_data")
     print("hi")
 
 
