@@ -5,12 +5,15 @@ from price_testing.sandbox import run_sandbox
 from static.data.modules import get_modules
 from static.data.assessments import get_assessments
 from price_testing.common import*
+from price_testing.assessment import*
 
 #Use these as global variables. There may be more
 username = None
 mod_list = None
 user_mod_data = []
 si = None
+chosen_mod = None
+chosen_sign = None
 
 #global username
 #user_id = None
@@ -61,6 +64,10 @@ def modules():
 
 @app.route("/learn/<module>/<sign>")
 def learn(module, sign):
+    global chosen_mod
+    chosen_mod = search_mod_for_name(module, user_mod_data)
+    global chosen_sign
+    chosen_sign = sign
     return render_template("learn.html", module=module, sign=sign)
 
 
@@ -74,11 +81,28 @@ def assessment(module, assessmentType):
 @app.route("/sandbox/<module>")
 def sandbox(module):
     print(module)
+    global chosen_mod
     #mod_index = list_modules(user_mod_data)
     #chosen_mod = user_mod_data[mod_index]
+    chosen_mod = search_mod_for_name(module, user_mod_data)
     print("SANDBOX")
     #run_sandbox(chosen_mod)
     return render_template("sandbox.html", module=module)
+
+@app.route('/run_sandbox_f', methods=['POST'])
+def run_sandbox_f():
+    # Call your run_sandbox(chosen_mod) function here
+    # Replace the following line with your actual logic
+    result = run_sandbox(chosen_mod)  # Replace with your function call
+    return f"Sandbox executed with result: {result}"
+
+@app.route('/run_learn_sign_f', methods=['POST'])
+def run_learn_sign_f():
+    # Call your run_sandbox(chosen_mod) function here
+    # Replace the following line with your actual logic
+    learn_sign(chosen_mod, chosen_sign)  # Replace with your function call
+    save_module_data(user_mod_data, f"{username}_data")
+    return f"Data Saved"
 
 
 if __name__ == "__main__":

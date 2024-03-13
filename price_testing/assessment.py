@@ -11,7 +11,7 @@ from price_testing.save_load2 import*
 from price_testing.sign_info import*
 from price_testing.common import*
 
-TIMER_TIME = 3
+TIMER_TIME = 5
 
 #choose a symbol and remove it from the list, return
 
@@ -58,7 +58,7 @@ def capture_video(cap, detector, imgSize, classifier):
                 imgResizeShape = imgResize.shape
                 hGap = math.ceil((imgSize - hCal) / 2)
                 imgWhite[hGap:hCal + hGap, :] = imgResize
-                print("yo")
+                #print("yo")
                 prediction, index = classifier.getPrediction(imgWhite)
                 #letter_seen = labels[index]
                 #print(f"Detected letter: {letter_seen}")
