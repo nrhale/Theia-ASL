@@ -148,9 +148,9 @@ def home():
     return render_template("home.html", username=username)
 """
 
-@app.route('/ha')
-def index():
-    return render_template('index.html')
+@app.route("/sandbox/<module>")
+def index(module):
+    return render_template('sandboxv2.html', module=module)
 
 
 @app.route("/home", methods=["POST"])
@@ -196,7 +196,7 @@ def assessment(module, assessmentType):
         "assessment.html", module=module, assessmentType=assessmentType
     )
 
-
+"""
 @app.route("/sandbox/<module>")
 def sandbox(module):
     print(module)
@@ -207,6 +207,7 @@ def sandbox(module):
     print("SANDBOX")
     #run_sandbox(chosen_mod)
     return render_template("sandbox.html", module=module)
+"""
 
 @app.route('/run_sandbox_f', methods=['POST'])
 def run_sandbox_f():
