@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Home - TheiaASL</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body>
+    <h1>Theia Home</h1>
+    <h2>Welcome {{ username }}!</h2>
+    <ul>
+      <a href="/statistics"
+        ><li><h3>Statistics</h3></li></a
+      >
+      <a href="/modules"
+        ><li><h3>Modules</h3></li></a
+      >
+    </ul>
+  </body>
+</html>
