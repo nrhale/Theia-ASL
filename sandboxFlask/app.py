@@ -123,9 +123,9 @@ def live_sandbox(module):
 def video():
     return Response(generate_frames(cap, detector), mimetype='multipart/x-mixed-replace; boundary=frame')
 """
-@app.route('/video')
-def video():
-    chosen_mod = search_mod_for_name("The Alphabet I", user_mod_data)
+@app.route('/<module>/video')
+def video(module):
+    chosen_mod = search_mod_for_name(module, user_mod_data)
     return Response(live_sandbox(chosen_mod), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
