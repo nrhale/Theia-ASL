@@ -1,21 +1,17 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-  <title>Log In - TheiaASL</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&display=swap">
-</head>
-
-<body>
-  <div class="center-box flow-down">
-    <img src="../static/images/theia-name-logo.png" style="max-width: 50%; height: auto;">
-    <div style="height: 10vh;"></div>
-    <form action="/register" method="post">
+  <head>
+    <title>Log In - TheiaASL</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body>
+    <h1>Theia ASL</h1>
+    <form action="/home" method="post">
       <input type="text" name="username" placeholder="Username" />
-      <button type="submit" class="rounded-button">Log in</button>
+      <button type="submit">Log in</button>
     </form>
-  </div>
-</body>
-
+  </body>
 </html>

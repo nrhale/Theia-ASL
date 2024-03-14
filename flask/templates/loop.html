@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flask While Loop Example</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Click the button to run the while loop:</h1>
+    <button id="runLoopBtn">Run While Loop</button>
+    <p id="iterationCount"></p>
+
+    <script>
+        $(document).ready(function() {
+            let count = 0;
+
+            $('#runLoopBtn').click(function() {
+                $.post('/run_while_loop', { count: count }, function(response) {
+                    // Display the current iteration count
+                    $('#iterationCount').text(`Iteration ${response}`);
+                    count = parseInt(response);
+
+                    // If desired, you can add a delay here before the next iteration
+                    // (e.g., setTimeout(() => { ... }, 1000); for a 1-second delay)
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
+
