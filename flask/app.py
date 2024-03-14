@@ -1,22 +1,34 @@
-from flask import Flask, render_template, request
+# built-in packages
 import json
+import sys
+import os
 
+# pip packages
+from flask import Flask, redirect, render_template, request, url_for
+
+# Add the parent directory to the path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+# Our packages
 from price_testing.sandbox import run_sandbox
 from static.data.modules import get_modules
 from static.data.assessments import get_assessments
+
 from price_testing.common import*
 from price_testing.assessment import*
 
-#Use these as global variables. There may be more
+# Use these as global variables. There may be more
 username = None
+statistics = None
+
 mod_list = None
 user_mod_data = []
 si = None
 chosen_mod = None
 chosen_sign = None
 
-#global username
-#user_id = None
+# global username
+# user_id = None
 
 
 app = Flask(__name__)
@@ -26,30 +38,35 @@ app = Flask(__name__)
 def login():
     return render_template("login.html")
 
-"""
-@app.route("/home", methods=["POST"])
-def home():
-    global username
-    username = request.form["username"]
-    return render_template("home.html", username=username)
-"""
 
-@app.route("/home", methods=["POST"])
-def home():
+@app.route("/register", methods=["POST"])
+def register():
     global username
     global user_mod_data
     username = request.form["username"]
     if os.path.isfile(f"../user_files/{username}_data.json") == False:
         print("new user!")
-        mod_list = [MOD1, MOD2, MOD3, MOD4, MOD5, MOD6]  # from common. Load new user with starter modules
+        mod_list = [
+            MOD1,
+            MOD2,
+            MOD3,
+            MOD4,
+            MOD5,
+            MOD6,
+        ]  # from common. Load new user with starter modules
         save_module_data(mod_list, f"{username}_data")
     user_mod_data = load_module_objects(f"{username}_data")
+    return redirect(url_for("home"))
+
+
+@app.route("/home")
+def home():
+    global username
     return render_template("home.html", username=username)
 
 
 @app.route("/statistics")
 def statistics():
-    # TODO: Do not hardcode the path
     with open(f"../user_files/{username}_data.json") as f:
         statistics = json.load(f)
     return render_template("statistics.html", username=username, statistics=statistics)
@@ -82,11 +99,9 @@ def assessment(module, assessmentType):
 def sandbox(module):
     print(module)
     global chosen_mod
-    #mod_index = list_modules(user_mod_data)
-    #chosen_mod = user_mod_data[mod_index]
     chosen_mod = search_mod_for_name(module, user_mod_data)
     print("SANDBOX")
-    #run_sandbox(chosen_mod)
+    # run_sandbox(chosen_mod)
     return render_template("sandbox.html", module=module)
 
 @app.route('/run_sandbox_f', methods=['POST'])
