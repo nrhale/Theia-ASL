@@ -40,7 +40,12 @@ def generate_output(module):
         user_img = assess_sign(model_name)
         #cv2.destroyAllWindows()
         prediction = get_prediction(sign_name_list, user_img, classifier)
+        old_score = score
         score = compare_signs(chosen_sign, prediction, score, module.sign_list)
+        if old_score == score:
+            yield f"data: Sorry! It looks like the sign you made was {prediction}.\n\n"
+        else:
+            yield f"data: Correct!\n\n"
 
         # If desired, you can add a delay here before the next iteration
         # (e.g., time.sleep(1) for a 1-second delay)
