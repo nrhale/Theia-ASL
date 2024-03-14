@@ -11,7 +11,7 @@ from price_testing.save_load2 import*
 from price_testing.sign_info import*
 from price_testing.common import*
 
-TIMER_TIME = 5
+TIMER_TIME = 1
 
 #choose a symbol and remove it from the list, return
 

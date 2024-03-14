@@ -22,8 +22,43 @@ app = Flask(__name__)
 #detector = HandDetector(maxHands=1)
 print("SANDBOX FLASK")
 
-"""
-def generate_frames(cap, detector):
+def generate_output(module):
+    # Your while loop logic here
+    remaining_list = module.sign_name_list.copy()
+    model_name = module.model
+    sign_name_list = create_si_name_list(SI_LIST, module.module_name)
+    score = 0
+
+    while len(remaining_list) > 0:
+        classifier = Classifier(f"{model_name}/keras_model.h5", f"{model_name}/labels.txt")
+        chosen_sign = choose_symbol(remaining_list)
+
+        # Yield the "Please sign {chosen_sign}" message for SSE
+        yield f"data: Please sign {chosen_sign}\n\n"
+
+        # Now assess the sign
+        user_img = assess_sign(model_name)
+        #cv2.destroyAllWindows()
+        prediction = get_prediction(sign_name_list, user_img, classifier)
+        score = compare_signs(chosen_sign, prediction, score, module.sign_list)
+
+        # If desired, you can add a delay here before the next iteration
+        # (e.g., time.sleep(1) for a 1-second delay)
+
+    # Yield the final score
+    yield f"data: Score: {score}/{len(module.sign_name_list)}\n\n"
+
+@app.route('/a_test')
+def a_test():
+    return render_template('sse_output.html')
+
+@app.route('/sse_output')
+def sse_output():
+    return Response(generate_output(MOD1), content_type='text/event-stream')
+
+def generate_frames():
+    cap = cv2.VideoCapture(0)
+    detector = HandDetector(maxHands=1)
     while True:
         #success, frame = camera.read()
         success, img = cap.read()
@@ -40,7 +75,7 @@ def generate_frames(cap, detector):
 
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + jpeg.tobytes() + b'\r\n\r\n')
-"""
+
 
 def live_sandbox(module):
     labels = create_si_name_list(SI_LIST, module.module_name)
@@ -117,12 +152,12 @@ def live_sandbox(module):
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + jpeg.tobytes() + b'\r\n\r\n')
 
-"""
+
 
 @app.route('/video')
-def video():
-    return Response(generate_frames(cap, detector), mimetype='multipart/x-mixed-replace; boundary=frame')
-"""
+def vids():
+    return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
 @app.route('/<module>/video')
 def video(module):
     chosen_mod = search_mod_for_name(module, user_mod_data)
@@ -182,7 +217,7 @@ def modules():
 
 
 @app.route("/learn/<module>/<sign>")
-def learn(module, sign, result="No Result Yet"):
+def learn(module, sign, result="Press 'Try Sign' and then hold up the sign. The capturing Process may taking a few seconds."):
     global chosen_mod
     chosen_mod = search_mod_for_name(module, user_mod_data)
     global chosen_sign
@@ -224,6 +259,21 @@ def run_learn_sign_f(module, sign):
     save_module_data(user_mod_data, f"{username}_data")
     return render_template("learn.html", module=module, sign=sign, result=res)
 
+@app.route('/looper')
+def looper():
+    return render_template('loop.html')
+
+@app.route('/run_while_loop', methods=['POST'])
+def run_while_loop():
+    # Get the current iteration count from the request
+    count = int(request.form.get('count', 0))
+
+    # Your while loop logic here
+    if count < 10:
+        count += 1
+        return str(count)  # Return the updated iteration count
+    else:
+        return "Loop completed"
 
 if __name__ == "__main__":
     app.run(debug=True)
