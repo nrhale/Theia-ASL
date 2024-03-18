@@ -3,4 +3,5 @@ def get_assessments():
         "Basic Assessment",
         "Smart Assessment",
         "Redemption Assessment",
+        "Survival Assessment"
     ]

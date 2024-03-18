@@ -30,6 +30,7 @@ assess_done = False
 is_first_sign = None
 score = 0
 cls = None
+lives_left_f = 3
 
 app = Flask(__name__)
 # camera = cv2.VideoCapture(0)
@@ -114,6 +115,52 @@ def mar15_assessment(module, chosen_sign, classifier):
         result = "Correct!\n\n"
         return [result, chosen_sign]
         #yield f"data: Correct!\n\n"
+
+def mar15_assessment_survival(module, chosen_sign, classifier):
+    # Your while loop logic here
+    global lives_left_f
+    global score
+    global remaining_list
+    # remaining_list = module.sign_name_list.copy()
+    model_name = module.model
+    sign_name_list = create_si_name_list(SI_LIST, module.module_name)
+    # score = 0
+    print(f"chosen sign: {chosen_sign}")
+    # chosen_sign = None
+
+    result = "NO RESULT FOLKS"
+
+    # if len(remaining_list) > 0:
+    # classifier = Classifier(
+    #    f"{model_name}/keras_model.h5", f"{model_name}/labels.txt"
+    # )
+    # chosen_sign = choose_symbol(remaining_list)
+
+    # Yield the "Please sign {chosen_sign}" message for SSE
+    # yield f"Please sign {chosen_sign}\n\n"
+    print(f"Please sign {chosen_sign}\n\n")
+
+    # Now assess the sign
+    user_img = assess_sign(model_name)
+    # cv2.destroyAllWindows()
+    prediction = get_prediction(sign_name_list, user_img, classifier)
+    old_score = score
+    score = compare_signs(chosen_sign, prediction, score, module.sign_list)
+
+    if old_score == score:
+        print("Life Lost!")
+        lives_left_f -= 1
+
+    if old_score == score:
+        print(f"Sorry! It looks like the sign you made was {prediction}.\n\nLife Lost!\n\nLives: {lives_left_f}\n\n")
+        result = f"Sorry! It looks like the sign you made was {prediction}.\nLife Lost!\nLives: {lives_left_f}\n\n"
+        return [result, chosen_sign]
+        # yield f"data: Sorry! It looks like the sign you made was {prediction}.\n\n"
+    else:
+        print(f"Correct!\nLives: {lives_left_f}\n\n")
+        result = f"Correct!\nLives: {lives_left_f}\n\n"
+        return [result, chosen_sign]
+
 
     # If desired, you can add a delay here before the next iteration
     # (e.g., time.sleep(1) for a 1-second delay)
@@ -329,6 +376,7 @@ def learn(
     sign,
     result="Press 'Try Sign' and then hold up the sign. The capturing Process may take a few seconds.",
 ):
+    global si
     si = search_si_list(sign, SI_LIST)
     global chosen_mod
     chosen_mod = search_mod_for_name(module, user_mod_data)
@@ -355,6 +403,7 @@ def assess(
     global is_first_sign
     global score
     global cls
+    global lives_left_f
     score = 0
     chosen_mod = search_mod_for_name(module, user_mod_data)
     print("in assessment")
@@ -390,6 +439,23 @@ def assess(
         return render_template(
             "smart_assessment.html", module=module, assessmentType=assessmentType, result=result, sign=chosen_sign
         )
+    elif assessmentType == "Survival Assessment":
+        print("Survival assessment detected")
+        if len(remaining_list) == 0:
+            print("LIST EMPTY. FILLING LIST")
+            remaining_list = chosen_mod.sign_name_list.copy()
+            chosen_sign = choose_symbol(remaining_list)
+            is_first_sign = True
+            cls = Classifier(
+        f"{chosen_mod.model}/keras_model.h5", f"{chosen_mod.model}/labels.txt"
+    )
+        else:
+            print("List has values")
+        #global chosen_sign
+        #chosen_sign = sign
+        return render_template(
+            "survival_assessment.html", module=module, assessmentType=assessmentType, result=result, sign=chosen_sign, livesLeft = lives_left_f
+        )
     else:
         print("PROBLEM NOT BASIC")
 
@@ -407,9 +473,10 @@ def run_sandbox_f():
 def run_learn_sign_f(module, sign):
     # Call your run_sandbox(chosen_mod) function here
     # Replace the following line with your actual logic
+    global si
     res = learn_sign2(chosen_mod, chosen_sign, cls)  # Replace with your function call
     save_module_data(user_mod_data, f"{username}_data")
-    return render_template("learn.html", module=module, sign=sign, result=res)
+    return render_template("learn.html", module=module, sign=sign, result=res, vid_url = si.video_loc, img_url=si.image_loc, text_desc=si.text_desc)
 
 @app.route("/<module>/<sign>/run_basic_assessment_f", methods=["POST"])
 def run_assessment_f(module, sign):
@@ -483,6 +550,47 @@ def run_smart_assessment_f(module, sign):
     #chosen_sign = choose_symbol(remaining_list)
     return render_template("smart_assessment.html", module=module, sign=chosen_sign, result=res, assessmentType="Smart Assessment")
 
+@app.route("/<module>/<sign>/run_survival_assessment_f", methods=["POST"])
+def run_survival_assessment_f(module, sign):
+
+    #global chosen_mod
+    global lives_left_f
+    global is_first_sign
+    global chosen_mod
+    global chosen_sign
+    global remaining_list
+    # Using below to deal with edge case
+    if is_first_sign == True:
+        print("FIRST SIGN")
+        is_first_sign = False
+    else:
+        print("NOT FIRST SIGN")
+        #chosen_sign = choose_symbol(remaining_list)
+    chosen_mod = search_mod_for_name(module, user_mod_data)
+    # Call your run_sandbox(chosen_mod) function here
+    # Replace the following line with your actual logic
+    #classifier = Classifier(
+    #    f"{chosen_mod.module_name}/keras_model.h5", f"{chosen_mod.module_name}/labels.txt"
+    #)
+    print(chosen_sign)
+    print(chosen_mod)
+    res_tuple = mar15_assessment_survival(chosen_mod, chosen_sign, cls)  # Replace with your function call
+    res = res_tuple[0]
+    as_sign = res_tuple[1]
+    save_module_data(user_mod_data, f"{username}_data")
+    if len(remaining_list) == 0:
+        remaining_list = chosen_mod.sign_name_list.copy()
+    if lives_left_f != 0:
+        chosen_sign = choose_symbol(remaining_list)
+    else:
+        remaining_list = []
+        lives_left_f = LIVES
+        modules = get_modules()
+        assessments = get_assessments()
+        update_high_score3(score, chosen_mod)
+        return render_template("score.html", module=module, assessments=assessments, score=score)
+    #chosen_sign = choose_symbol(remaining_list)
+    return render_template("survival_assessment.html", module=module, sign=chosen_sign, result=res, assessmentType="Survival Assessment", livesLeft = lives_left_f)
 
 
 @app.route("/looper")
