@@ -29,6 +29,7 @@ remaining_list = []
 assess_done = False
 is_first_sign = None
 score = 0
+cls = None
 
 app = Flask(__name__)
 # camera = cv2.VideoCapture(0)
@@ -74,7 +75,7 @@ def generate_output(module):
     yield f"data: Score: {score}/{len(module.sign_name_list)}\n\n"
 """
 
-def mar15_assessment(module, chosen_sign):
+def mar15_assessment(module, chosen_sign, classifier):
     # Your while loop logic here
     global score
     global remaining_list
@@ -88,9 +89,9 @@ def mar15_assessment(module, chosen_sign):
     result = "NO RESULT FOLKS"
 
 #if len(remaining_list) > 0:
-    classifier = Classifier(
-        f"{model_name}/keras_model.h5", f"{model_name}/labels.txt"
-    )
+    #classifier = Classifier(
+    #    f"{model_name}/keras_model.h5", f"{model_name}/labels.txt"
+    #)
     #chosen_sign = choose_symbol(remaining_list)
 
     # Yield the "Please sign {chosen_sign}" message for SSE
@@ -332,6 +333,10 @@ def learn(
     chosen_mod = search_mod_for_name(module, user_mod_data)
     global chosen_sign
     chosen_sign = sign
+    global cls
+    cls = Classifier(
+        f"{chosen_mod.model}/keras_model.h5", f"{chosen_mod.model}/labels.txt"
+    )
     return render_template("learn.html", module=module, sign=sign, result=result)
 
 
@@ -348,6 +353,7 @@ def assess(
     global chosen_sign
     global is_first_sign
     global score
+    global cls
     score = 0
     chosen_mod = search_mod_for_name(module, user_mod_data)
     print("in assessment")
@@ -358,12 +364,30 @@ def assess(
             remaining_list = chosen_mod.sign_name_list.copy()
             chosen_sign = choose_symbol(remaining_list)
             is_first_sign = True
+            cls = Classifier(
+        f"{chosen_mod.model}/keras_model.h5", f"{chosen_mod.model}/labels.txt"
+    )
         else:
             print("List has values")
         #global chosen_sign
         #chosen_sign = sign
         return render_template(
             "basic_assessment.html", module=module, assessmentType=assessmentType, result=result, sign=chosen_sign
+        )
+    elif assessmentType == "Smart Assessment":
+        print("Smart assessment detected")
+        if len(remaining_list) == 0:
+            print("LIST EMPTY. FILLING LIST")
+            remaining_list = order_sign_by_accuracy(chosen_mod)
+            chosen_sign = smart_choose(remaining_list)
+            is_first_sign = True
+            cls = Classifier(
+        f"{chosen_mod.model}/keras_model.h5", f"{chosen_mod.model}/labels.txt"
+    )
+        else:
+            print("List has values")
+        return render_template(
+            "smart_assessment.html", module=module, assessmentType=assessmentType, result=result, sign=chosen_sign
         )
     else:
         print("PROBLEM NOT BASIC")
@@ -382,7 +406,7 @@ def run_sandbox_f():
 def run_learn_sign_f(module, sign):
     # Call your run_sandbox(chosen_mod) function here
     # Replace the following line with your actual logic
-    res = learn_sign(chosen_mod, chosen_sign)  # Replace with your function call
+    res = learn_sign2(chosen_mod, chosen_sign, cls)  # Replace with your function call
     save_module_data(user_mod_data, f"{username}_data")
     return render_template("learn.html", module=module, sign=sign, result=res)
 
@@ -403,9 +427,12 @@ def run_assessment_f(module, sign):
     chosen_mod = search_mod_for_name(module, user_mod_data)
     # Call your run_sandbox(chosen_mod) function here
     # Replace the following line with your actual logic
+    #classifier = Classifier(
+    #    f"{chosen_mod.module_name}/keras_model.h5", f"{chosen_mod.module_name}/labels.txt"
+    #)
     print(chosen_sign)
     print(chosen_mod)
-    res_tuple = mar15_assessment(chosen_mod, chosen_sign)  # Replace with your function call
+    res_tuple = mar15_assessment(chosen_mod, chosen_sign, cls)  # Replace with your function call
     res = res_tuple[0]
     as_sign = res_tuple[1]
     save_module_data(user_mod_data, f"{username}_data")
@@ -414,9 +441,46 @@ def run_assessment_f(module, sign):
     else:
         modules = get_modules()
         assessments = get_assessments()
+        update_high_score(score, chosen_mod)
         return render_template("score.html", module=module, assessments=assessments, score=score)
     #chosen_sign = choose_symbol(remaining_list)
     return render_template("basic_assessment.html", module=module, sign=chosen_sign, result=res, assessmentType="Basic Assessment")
+
+@app.route("/<module>/<sign>/run_smart_assessment_f", methods=["POST"])
+def run_smart_assessment_f(module, sign):
+
+    #global chosen_mod
+    global is_first_sign
+    global chosen_mod
+    global chosen_sign
+    # Using below to deal with edge case
+    if is_first_sign == True:
+        print("FIRST SIGN")
+        is_first_sign = False
+    else:
+        print("NOT FIRST SIGN")
+        #chosen_sign = choose_symbol(remaining_list)
+    chosen_mod = search_mod_for_name(module, user_mod_data)
+    # Call your run_sandbox(chosen_mod) function here
+    # Replace the following line with your actual logic
+    #classifier = Classifier(
+    #    f"{chosen_mod.module_name}/keras_model.h5", f"{chosen_mod.module_name}/labels.txt"
+    #)
+    print(chosen_sign)
+    print(chosen_mod)
+    res_tuple = mar15_assessment(chosen_mod, chosen_sign, cls)  # Replace with your function call
+    res = res_tuple[0]
+    as_sign = res_tuple[1]
+    save_module_data(user_mod_data, f"{username}_data")
+    if len(remaining_list) != 0:
+        chosen_sign = smart_choose(remaining_list)
+    else:
+        modules = get_modules()
+        assessments = get_assessments()
+        update_high_score2(score, chosen_mod)
+        return render_template("score.html", module=module, assessments=assessments, score=score)
+    #chosen_sign = choose_symbol(remaining_list)
+    return render_template("smart_assessment.html", module=module, sign=chosen_sign, result=res, assessmentType="Smart Assessment")
 
 
 
