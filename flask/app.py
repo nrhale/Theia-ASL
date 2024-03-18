@@ -329,6 +329,7 @@ def learn(
     sign,
     result="Press 'Try Sign' and then hold up the sign. The capturing Process may take a few seconds.",
 ):
+    si = search_si_list(sign, SI_LIST)
     global chosen_mod
     chosen_mod = search_mod_for_name(module, user_mod_data)
     global chosen_sign
@@ -337,7 +338,7 @@ def learn(
     cls = Classifier(
         f"{chosen_mod.model}/keras_model.h5", f"{chosen_mod.model}/labels.txt"
     )
-    return render_template("learn.html", module=module, sign=sign, result=result)
+    return render_template("learn.html", module=module, sign=sign, result=result, vid_url = si.video_loc, img_url=si.image_loc, text_desc=si.text_desc)
 
 
 
