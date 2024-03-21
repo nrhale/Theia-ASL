@@ -9,29 +9,31 @@
   </head>
 
   <body>
-    <a href="/home">
-      <img
-        src="{{ url_for('static', filename='images/theia-name-logo.png') }}"
-        alt="Theia Logo"
-        style="max-width: 25%; height: auto; padding: 10px"
-      />
-    </a>
+    <div class="page-content">
+      <a href="/home" class="home-link">
+        <img
+          src="{{ url_for('static', filename='images/theia-name-logo.png') }}"
+          alt="Theia Logo"
+          class="home-img"
+        />
+      </a>
 
-    <h1>{{ username }}'s Statistics</h1>
+      <h1>{{ username }}'s Statistics</h1>
 
-    {% for module in statistics %}
-    <h2>{{ module.module_name }}</h2>
+      {% for module in statistics %}
+      <h2>{{ module.module_name }}</h2>
 
-    {% if not module.sign_list %}
-    <h3>No stats for this module</h3>
+      {% if not module.sign_list %}
+      <h3>No stats for this module</h3>
 
-    {% else %} {% for sign in module.sign_list %}
+      {% else %} {% for sign in module.sign_list %}
 
-    <h3>
-      Sign: {{ sign.sign_name }}, Times Asked: {{ sign.assessed_count }},
-      Accuracy: {% if sign.assessed_count <= 0 %}N/A{% else %}{{
-      sign.correct_count / sign.assessed_count }}{% endif %}
-    </h3>
-    {% endfor %} {% endif %} {% endfor %}
+      <h3>
+        Sign: {{ sign.sign_name }}, Times Asked: {{ sign.assessed_count }},
+        Accuracy: {% if sign.assessed_count <= 0 %}N/A{% else %}{{
+        sign.correct_count / sign.assessed_count }}{% endif %}
+      </h3>
+      {% endfor %} {% endif %} {% endfor %}
+    </div>
   </body>
 </html>
