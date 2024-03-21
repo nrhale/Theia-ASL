@@ -365,6 +365,8 @@ def statistics():
 
 @app.route("/modules")
 def modules():
+    global remaining_list
+    remaining_list = []
     modules = get_modules()
     assessments = get_assessments()
     return render_template("modules.html", modules=modules, assessments=assessments)
