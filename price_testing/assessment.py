@@ -237,6 +237,10 @@ def order_sign_by_accuracy(module):
                     acc_ordered_list.insert(i, acc)
                     sign_ordered_list.insert(i, sign.sign_name)
                     break
+                elif i == len(acc_ordered_list) - 1:
+                    sign_ordered_list.append(sign.sign_name)
+                    acc_ordered_list.append(acc)
+
     return sign_ordered_list
 
 
@@ -247,6 +251,25 @@ def learn_sign(module, chosen_sign):
     model_name = module.model
     sign_name_list = create_si_name_list(SI_LIST, module.module_name) # this may have to be used as the sign list in full_process as well
     classifier = Classifier(f"{model_name}/keras_model.h5", f"{model_name}/labels.txt")
+    print(f"Please Sign {chosen_sign}")
+    user_img = assess_sign(model_name)
+    prediction = get_prediction(sign_name_list, user_img, classifier)
+    score = compare_signs_learn(chosen_sign, prediction, score)  # returns new score (incremented by 1 if correct)
+    if score == 1:
+        add_new_sign(module, chosen_sign)
+        result = f"Correct! The '{chosen_sign}' sign has now been added to your list of known signs. It will now show up in this module's assessments!"
+    else:
+        if prediction == None:
+            result = "Sorry! No hand was detected in the frame."
+        else:
+            result = f"Sorry! It looks like the sign you made was {prediction}."
+    return result
+
+def learn_sign2(module, chosen_sign, classifier):
+    score = 0
+    model_name = module.model
+    sign_name_list = create_si_name_list(SI_LIST, module.module_name) # this may have to be used as the sign list in full_process as well
+    #classifier = Classifier(f"{model_name}/keras_model.h5", f"{model_name}/labels.txt")
     print(f"Please Sign {chosen_sign}")
     user_img = assess_sign(model_name)
     prediction = get_prediction(sign_name_list, user_img, classifier)
