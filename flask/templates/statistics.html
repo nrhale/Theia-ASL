@@ -10,30 +10,40 @@
 
   <body>
     <div class="page-content">
-      <a href="/home" class="home-link">
-        <img
-          src="{{ url_for('static', filename='images/theia-name-logo.png') }}"
-          alt="Theia Logo"
-          class="home-img"
-        />
-      </a>
+      <div style="height: 20px"></div>
 
-      <h1>{{ username }}'s Statistics</h1>
+      <div style="display: flex; justify-content: center">
+        <a href="/home" class="home-link">
+          <img
+            src="{{ url_for('static', filename='images/theia-name-logo.png') }}"
+            alt="Theia Logo"
+            class="home-img"
+          />
+        </a>
+      </div>
 
-      {% for module in statistics %}
-      <h2>{{ module.module_name }}</h2>
+      <h1 style="text-align: center">{{ username }}'s Statistics</h1>
 
-      {% if not module.sign_list %}
-      <h3>No stats for this module</h3>
-
-      {% else %} {% for sign in module.sign_list %}
-
-      <h3>
-        Sign: {{ sign.sign_name }}, Times Asked: {{ sign.assessed_count }},
-        Accuracy: {% if sign.assessed_count <= 0 %}N/A{% else %}{{
-        sign.correct_count / sign.assessed_count }}{% endif %}
-      </h3>
-      {% endfor %} {% endif %} {% endfor %}
+      <div style="padding: 0 0 0 20px">
+        {% for module in statistics %}
+        <h2 class="toggle" style="cursor: pointer">
+          {{ module.module_name }} ☰
+        </h2>
+        <div class="hide-content" style="padding: 0 0 0 20px">
+          {% if not module.sign_list %}
+          <h3>No stats for this module</h3>
+          {% else %} {% for sign in module.sign_list %}
+          <h3>
+            Sign: {{ sign.sign_name }}, Times Asked: {{ sign.assessed_count }},
+            Accuracy: {% if sign.assessed_count <= 0 %}N/A{% else %}{{
+            sign.correct_count / sign.assessed_count }}{% endif %}
+          </h3>
+          {% endfor %} {% endif %}
+        </div>
+        {% endfor %}
+      </div>
     </div>
+
+    <script src="{{url_for('static', filename='js/toggleContent.js')}}"></script>
   </body>
 </html>
