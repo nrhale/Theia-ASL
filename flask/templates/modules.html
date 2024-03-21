@@ -10,6 +10,8 @@
 
   <body>
     <div class="page-content">
+      <div style="height: 20px"></div>
+
       <div style="display: flex; justify-content: center">
         <a href="/home" class="home-link">
           <img
@@ -53,16 +55,6 @@
       </div>
     </div>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", (event) => {
-        document.querySelectorAll(".toggle").forEach((item) => {
-          item.addEventListener("click", (event) => {
-            // Toggle visibility of the next sibling (the hide-content div)
-            let content = item.nextElementSibling;
-            content.classList.toggle("hide-content");
-          });
-        });
-      });
-    </script>
+    <script src="{{url_for('static', filename='js/toggleContent.js')}}"></script>
   </body>
 </html>
