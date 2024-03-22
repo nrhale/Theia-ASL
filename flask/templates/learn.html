@@ -59,11 +59,20 @@
             action="/{{ module }}/{{ sign }}/run_learn_sign_f"
             method="POST"
           >
-            <input type="submit" value="Try Sign" class="rounded-button" />
+            <input type="submit" id="myButton" value="Try Sign" class="rounded-button" />
           </form>
         </div>
         <div style="height: 20px"></div>
         <div id="result">{{ result }}</div>
+            <script>
+        // Function to change the button value
+        function changeButtonValue() {
+            document.getElementById("myButton").value = "Processing...";
+        }
+
+        // Attach the function to the button's click event
+        document.getElementById("myButton").addEventListener("click", changeButtonValue);
+    </script>
         <script>
           // Automatically show the pop-up when the page loads
           window.onload = function () {
