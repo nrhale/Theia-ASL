@@ -493,7 +493,7 @@ def assess(
         # global chosen_sign
         # chosen_sign = sign
         return render_template(
-            "basic_assessment.html",
+            "assessments/basic_assessment.html",
             module=module,
             assessmentType=assessmentType,
             result=result,
@@ -512,7 +512,7 @@ def assess(
         else:
             print("List has values")
         return render_template(
-            "smart_assessment.html",
+            "assessments/smart_assessment.html",
             module=module,
             assessmentType=assessmentType,
             result=result,
@@ -531,7 +531,7 @@ def assess(
         else:
             print("List has values")
         return render_template(
-            "survival_assessment.html",
+            "assessments/survival_assessment.html",
             module=module,
             assessmentType=assessmentType,
             result=result,
@@ -551,7 +551,7 @@ def assess(
         else:
             print("List has values")
         return render_template(
-            "rounds_assessment.html",
+            "assessments/rounds_assessment.html",
             module=module,
             assessmentType=assessmentType,
             result=result,
@@ -628,7 +628,7 @@ def run_assessment_f(module, sign):
         )
     # chosen_sign = choose_symbol(remaining_list)
     return render_template(
-        "basic_assessment.html",
+        "assessments/basic_assessment.html",
         module=module,
         sign=chosen_sign,
         result=res,
@@ -675,7 +675,7 @@ def run_smart_assessment_f(module, sign):
         )
     # chosen_sign = choose_symbol(remaining_list)
     return render_template(
-        "smart_assessment.html",
+        "assessments/smart_assessment.html",
         module=module,
         sign=chosen_sign,
         result=res,
@@ -728,7 +728,7 @@ def run_survival_assessment_f(module, sign):
         )
     # chosen_sign = choose_symbol(remaining_list)
     return render_template(
-        "survival_assessment.html",
+        "assessments/survival_assessment.html",
         module=module,
         sign=chosen_sign,
         result=res,
@@ -782,7 +782,7 @@ def run_rounds_assessment_f(module, sign):
             print(f"length of remaining list: {len(remaining_list)}")
             chosen_sign = choose_symbol(wrong_list)
             return render_template(
-                "wrongs_assessment.html",
+                "assessments/wrongs_assessment.html",
                 module=module,
                 sign=chosen_sign,
                 result=res,
@@ -791,7 +791,7 @@ def run_rounds_assessment_f(module, sign):
 
         # return render_template("score.html", module=module, assessments=assessments, score=score) #chosen_sign = choose_symbol(remaining_list)
     return render_template(
-        "rounds_assessment.html",
+        "assessments/rounds_assessment.html",
         module=module,
         sign=chosen_sign,
         result=res,
@@ -833,7 +833,7 @@ def run_wrongs_assessment_f(module, sign):
         print("wrong list persists")
         chosen_sign = choose_symbol(wrong_list)
         return render_template(
-            "wrongs_assessment.html",
+            "assessments/wrongs_assessment.html",
             module=module,
             sign=chosen_sign,
             result=res,
@@ -849,7 +849,7 @@ def run_wrongs_assessment_f(module, sign):
             )
         else:
             return render_template(
-                "wrongs_assessment.html",
+                "assessments/wrongs_assessment.html",
                 module=module,
                 sign=chosen_sign,
                 result=res,
