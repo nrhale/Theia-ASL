@@ -431,11 +431,17 @@ def modules():
     global remaining_list
     global user_mod_data
     highscores = []
+    highscores2 = []
+    highscores3 = []
+    highscores4 = []
     for i in range (len(user_mod_data)):
         highscores.append(user_mod_data[i].high_score)
+        highscores2.append(user_mod_data[i].high_score2)
+        highscores3.append(user_mod_data[i].high_score3)
+        highscores4.append(user_mod_data[i].high_score4)
     modules = get_modules()
     assessments = get_assessments()
-    return render_template("modules.html", modules=modules, assessments=assessments, highscores=highscores)
+    return render_template("modules.html", modules=modules, assessments=assessments, highscores=highscores, highscores1=highscores, highscores2=highscores2, highscores3=highscores3, highscores4=highscores4)
 
 
 @app.route("/learn/<module>/<sign>")

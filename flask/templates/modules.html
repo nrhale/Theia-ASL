@@ -26,6 +26,7 @@
 
       <div style="padding: 0 0 0 20px">
         {% for module in modules %}
+        {% set outer_loop_index = loop.index0 %}
         <h2 class="toggle" style="cursor: pointer">{{ module.name }} ☰</h2>
 
         <div class="hide-content" style="padding: 0 0 0 20px">
@@ -44,10 +45,17 @@
             <a href="/assessment/{{ module.name }}/{{ assessment }}">
               <h4>{{ assessment }} ↩</h4>
             </a>
-            <p>High Score: {{ highscores[0] }}</p>
+              {% if assessment == "Basic Assessment" %}
+                  <p>High Score: {{ highscores[outer_loop_index] }}</p>
+              {% elif assessment == "Smart Assessment" %}
+                  <p>High Score: {{ highscores2[outer_loop_index] }}</p>
+              {% elif assessment == "Rounds Assessment" %}
+                  <p>High Score: {{ highscores3[outer_loop_index] }}</p>
+              {% elif assessment == "Survival Assessment" %}
+                  <p>High Score: {{ highscores4[outer_loop_index] }}</p>
+              {% endif %}
             {% endfor %}
           </div>
-
           <a href="/sandbox/{{ module.name }}">
             <h3>Sandbox ↩</h3>
           </a>
