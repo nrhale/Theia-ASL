@@ -448,7 +448,7 @@ def modules():
 def learn(
     module,
     sign,
-    result="Press 'Try Sign' and then hold up the sign. The capturing Process may take a few seconds.",
+    result="Press 'Try Sign' and then hold up the sign. The capturing process may take a few seconds.",
 ):
     global si
     si = search_si_list(sign, SI_LIST)
