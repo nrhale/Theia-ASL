@@ -432,10 +432,13 @@ def statistics():
 @app.route("/modules")
 def modules():
     global remaining_list
-    remaining_list = []
+    global user_mod_data
+    highscores = []
+    for i in range (len(user_mod_data)):
+        highscores.append(user_mod_data[i].high_score)
     modules = get_modules()
     assessments = get_assessments()
-    return render_template("modules.html", modules=modules, assessments=assessments)
+    return render_template("modules.html", modules=modules, assessments=assessments, highscores=highscores)
 
 
 @app.route("/learn/<module>/<sign>")
