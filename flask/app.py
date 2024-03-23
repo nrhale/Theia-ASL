@@ -633,8 +633,9 @@ def run_assessment_f(module, sign):
         modules = get_modules()
         assessments = get_assessments()
         update_high_score(score, chosen_mod)
+        save_module_data(user_mod_data, f"{username}_data")
         return render_template(
-            "score.html", module=module, assessments=assessments, score=score
+            "score.html", module=module, assessments=assessments, score=score, highscore=chosen_mod.high_score
         )
     # chosen_sign = choose_symbol(remaining_list)
     return render_template(
@@ -680,8 +681,9 @@ def run_smart_assessment_f(module, sign):
         modules = get_modules()
         assessments = get_assessments()
         update_high_score2(score, chosen_mod)
+        save_module_data(user_mod_data, f"{username}_data")
         return render_template(
-            "score.html", module=module, assessments=assessments, score=score
+            "score.html", module=module, assessments=assessments, score=score, highscore=chosen_mod.high_score2
         )
     # chosen_sign = choose_symbol(remaining_list)
     return render_template(
@@ -732,9 +734,10 @@ def run_survival_assessment_f(module, sign):
         lives_left_f = LIVES
         modules = get_modules()
         assessments = get_assessments()
-        update_high_score3(score, chosen_mod)
+        update_high_score4(score, chosen_mod)
+        save_module_data(user_mod_data, f"{username}_data")
         return render_template(
-            "score.html", module=module, assessments=assessments, score=score
+            "score.html", module=module, assessments=assessments, score=score, highscore=chosen_mod.high_score4
         )
     # chosen_sign = choose_symbol(remaining_list)
     return render_template(
@@ -782,9 +785,10 @@ def run_rounds_assessment_f(module, sign):
         if len(wrong_list) == 0:
             modules = get_modules()
             assessments = get_assessments()
-            update_high_score4(score, chosen_mod)
+            update_high_score3(score, chosen_mod)
+            save_module_data(user_mod_data, f"{username}_data")
             return render_template(
-                "score.html", module=module, assessments=assessments, score=score
+                "score.html", module=module, assessments=assessments, score=score, highscore=chosen_mod.high_score3
             )
         else:
             print("WAYAYAYA")
@@ -853,9 +857,9 @@ def run_wrongs_assessment_f(module, sign):
         if len(wrong_list) == 0:
             modules = get_modules()
             assessments = get_assessments()
-            # update_high_score4(score, chosen_mod)
+            #update_high_score4(score, chosen_mod)
             return render_template(
-                "score.html", module=module, assessments=assessments, score=score
+                "score.html", module=module, assessments=assessments, score=score, highscore=chosen_mod.high_score3
             )
         else:
             return render_template(
