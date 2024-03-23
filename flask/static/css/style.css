@@ -28,6 +28,9 @@ h3 {
 h4 {
   color: #b5a96a;
 }
+h5 {
+  color: #bab07b;
+}
 
 input[type="text"] {
   border-radius: 20px;

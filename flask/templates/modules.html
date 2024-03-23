@@ -46,13 +46,13 @@
               <h4>{{ assessment }} ↩</h4>
             </a>
               {% if assessment == "Basic Assessment" %}
-                  <p>High Score: {{ highscores[outer_loop_index] }}</p>
+                  <h5 style="margin-left: 10px">High Score: {{ highscores[outer_loop_index] }}</h5>
               {% elif assessment == "Smart Assessment" %}
-                  <p>High Score: {{ highscores2[outer_loop_index] }}</p>
+                  <h5 style="margin-left: 10px">High Score: {{ highscores2[outer_loop_index] }}</h5>
               {% elif assessment == "Rounds Assessment" %}
-                  <p>High Score: {{ highscores3[outer_loop_index] }}</p>
+                  <h5 style="margin-left: 10px">High Score: {{ highscores3[outer_loop_index] }}</h5>
               {% elif assessment == "Survival Assessment" %}
-                  <p>High Score: {{ highscores4[outer_loop_index] }}</p>
+                  <h5 style="margin-left: 10px">High Score: {{ highscores4[outer_loop_index] }}</h5>
               {% endif %}
             {% endfor %}
           </div>
