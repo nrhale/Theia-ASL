@@ -10,6 +10,30 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&display=swap"
     />
+    <style>
+        /* Style for the tooltip */
+        .tooltip {
+            position: relative;
+        }
+
+        .tooltip::before {
+            content: "?"; /* You can replace this with an icon if desired */
+            font-size: 16px;
+            color: #333;
+            position: absolute;
+            top: -20px; /* Adjust this value to position the tooltip */
+            left: 0;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: none; /* Hide by default */
+        }
+
+        .tooltip:hover::before {
+            display: block; /* Show the tooltip on hover */
+        }
+    </style>
   </head>
 
   <body>
@@ -27,5 +51,8 @@
         Log in
       </button>
     </form>
+      <p>
+        This is some text with a <span class="tooltip" title="Hover over me for more info">?</span> tooltip.
+    </p>
   </body>
 </html>
