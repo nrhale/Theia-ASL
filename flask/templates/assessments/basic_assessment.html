@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ module }}: {{ assessmentType }} - TheiaASL</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&display=swap"
+    />
+  </head>
+  <body>
+    <h1>{{ assessmentType }}</h1>
+    <h1>Click the button to attempt sign:</h1>
+    <form
+      action="/{{ module }}/{{ sign }}/run_basic_assessment_f"
+      method="POST"
+    >
+      <input type="submit" id="myButton" value="Make {{ sign }}" />
+    </form>
+    <div id="result">{{ result }}</div>
+    <script>
+      // Function to change the button value
+      function changeButtonValue() {
+        document.getElementById("myButton").value = "Processing...";
+      }
+
+      // Attach the function to the button's click event
+      document
+        .getElementById("myButton")
+        .addEventListener("click", changeButtonValue);
+    </script>
+    <script>
+      // Automatically show the pop-up when the page loads
+      window.onload = function () {
+        document.getElementById("popup").style.display = "block";
+      };
+
+      function showPopup() {
+        document.getElementById("popup").style.display = "block";
+      }
+    </script>
+
+    <div id="video-container">
+      <img id="video" src="/video" alt="Camera Feed" />
+      <!-- Add your button here -->
+      <button id="toggle-button" onclick="toggleCamera()">Toggle Camera</button>
+    </div>
+
+    <script>
+      function toggleCamera() {
+        const videoElement = document.getElementById("video");
+        if (videoElement.style.display === "none") {
+          videoElement.style.display = "block";
+        } else {
+          videoElement.style.display = "none";
+        }
+      }
+      function openPopup() {
+        document.querySelector(".overlay").style.display = "block";
+        document.querySelector(".popup").style.display = "block";
+      }
+
+      function closePopup() {
+        document.querySelector(".overlay").style.display = "none";
+        document.querySelector(".popup").style.display = "none";
+      }
+    </script>
+    <a href="/modules" class="btn btn-primary"
+      ><h2>Return to Modules Page</h2></a
+    >
+  </body>
+</html>

@@ -77,27 +77,28 @@ def generate_output(module):
     yield f"data: Score: {score}/{len(module.sign_name_list)}\n\n"
 """
 
+
 def mar15_assessment(module, chosen_sign, classifier):
     # Your while loop logic here
     global score
     global remaining_list
-    #remaining_list = module.sign_name_list.copy()
+    # remaining_list = module.sign_name_list.copy()
     model_name = module.model
     sign_name_list = create_si_name_list(SI_LIST, module.module_name)
-    #score = 0
+    # score = 0
     print(f"chosen sign: {chosen_sign}")
-    #chosen_sign = None
+    # chosen_sign = None
 
     result = "NO RESULT FOLKS"
 
-#if len(remaining_list) > 0:
-    #classifier = Classifier(
+    # if len(remaining_list) > 0:
+    # classifier = Classifier(
     #    f"{model_name}/keras_model.h5", f"{model_name}/labels.txt"
-    #)
-    #chosen_sign = choose_symbol(remaining_list)
+    # )
+    # chosen_sign = choose_symbol(remaining_list)
 
     # Yield the "Please sign {chosen_sign}" message for SSE
-    #yield f"Please sign {chosen_sign}\n\n"
+    # yield f"Please sign {chosen_sign}\n\n"
     print(f"Please sign {chosen_sign}\n\n")
 
     # Now assess the sign
@@ -110,12 +111,13 @@ def mar15_assessment(module, chosen_sign, classifier):
         print(f"Sorry! It looks like the sign you made was {prediction}.\n\n")
         result = f"Sorry! It looks like the sign you made was {prediction}.\n\n"
         return [result, chosen_sign]
-        #yield f"data: Sorry! It looks like the sign you made was {prediction}.\n\n"
+        # yield f"data: Sorry! It looks like the sign you made was {prediction}.\n\n"
     else:
         print("Correct!\n\n")
         result = "Correct!\n\n"
         return [result, chosen_sign]
-        #yield f"data: Correct!\n\n"
+        # yield f"data: Correct!\n\n"
+
 
 def mar15_assessment_survival(module, chosen_sign, classifier):
     # Your while loop logic here
@@ -153,7 +155,9 @@ def mar15_assessment_survival(module, chosen_sign, classifier):
         lives_left_f -= 1
 
     if old_score == score:
-        print(f"Sorry! It looks like the sign you made was {prediction}.\n\nLife Lost!\n\nLives: {lives_left_f}\n\n")
+        print(
+            f"Sorry! It looks like the sign you made was {prediction}.\n\nLife Lost!\n\nLives: {lives_left_f}\n\n"
+        )
         result = f"Sorry! It looks like the sign you made was {prediction}.\nLife Lost!\nLives: {lives_left_f}\n\n"
         return [result, chosen_sign]
         # yield f"data: Sorry! It looks like the sign you made was {prediction}.\n\n"
@@ -162,24 +166,25 @@ def mar15_assessment_survival(module, chosen_sign, classifier):
         result = f"Correct!\nLives: {lives_left_f}\n\n"
         return [result, chosen_sign]
 
-
     # If desired, you can add a delay here before the next iteration
     # (e.g., time.sleep(1) for a 1-second delay)
 
+
 # Yield the final score
-#yield f"data: Score: {score}/{len(module.sign_name_list)}\n\n"
+# yield f"data: Score: {score}/{len(module.sign_name_list)}\n\n"
+
 
 def mar15_assessment_rounds(module, chosen_sign, classifier):
     # Your while loop logic here
     global wrong_list
     global score
     global remaining_list
-    #remaining_list = module.sign_name_list.copy()
+    # remaining_list = module.sign_name_list.copy()
     model_name = module.model
     sign_name_list = create_si_name_list(SI_LIST, module.module_name)
-    #score = 0
+    # score = 0
     print(f"chosen sign: {chosen_sign}")
-    #chosen_sign = None
+    # chosen_sign = None
 
     result = "NO RESULT FOLKS"
     print(f"Please sign {chosen_sign}\n\n")
@@ -195,24 +200,13 @@ def mar15_assessment_rounds(module, chosen_sign, classifier):
         print(f"Sorry! It looks like the sign you made was {prediction}.\n\n")
         result = f"Sorry! It looks like the sign you made was {prediction}.\n\n"
         return [result, chosen_sign]
-        #yield f"data: Sorry! It looks like the sign you made was {prediction}.\n\n"
+        # yield f"data: Sorry! It looks like the sign you made was {prediction}.\n\n"
     else:
         print("Correct!\n\n")
         result = "Correct!\n\n"
         return [result, chosen_sign]
-        #yield f"data: Correct!\n\n"
+        # yield f"data: Correct!\n\n"
 
-"""
-@app.route("/a_test")
-def a_test():
-    return render_template("sse_output.html")
-
-
-
-@app.route("/sse_output")
-def sse_output():
-    return Response(generate_output(MOD1), content_type="text/event-stream")
-"""
 
 def generate_frames():
     cap = cv2.VideoCapture(0)
@@ -236,10 +230,11 @@ def generate_frames():
             b"Content-Type: image/jpeg\r\n\r\n" + jpeg.tobytes() + b"\r\n\r\n"
         )
 
-#For the rounds assessment of values gotten wrong
+
+# For the rounds assessment of values gotten wrong
 def mar15_assessment_wrongs(module, chosen_sign, classifier):
     # Your while loop logic here
-    score = 0 # use fake score, redmption shouldn't affect score
+    score = 0  # use fake score, redmption shouldn't affect score
     global wrong_list
     model_name = module.model
     sign_name_list = create_si_name_list(SI_LIST, module.module_name)
@@ -260,12 +255,13 @@ def mar15_assessment_wrongs(module, chosen_sign, classifier):
         result = f"Sorry! It looks like the sign you made was {prediction}.\n\n"
         wrong_list.append(chosen_sign)
         return [result, chosen_sign]
-        #yield f"data: Sorry! It looks like the sign you made was {prediction}.\n\n"
+        # yield f"data: Sorry! It looks like the sign you made was {prediction}.\n\n"
     else:
         print("Correct!\n\n")
         result = "Correct!\n\n"
         return [result, chosen_sign]
-        #yield f"data: Correct!\n\n"
+        # yield f"data: Correct!\n\n"
+
 
 def live_sandbox(module, classifier):
     labels = create_si_name_list(SI_LIST, module.module_name)
@@ -273,9 +269,9 @@ def live_sandbox(module, classifier):
     cap = cv2.VideoCapture(0)
     detector = HandDetector(maxHands=1)  # may change later
 
-    #classifier = Classifier(
+    # classifier = Classifier(
     #    f"{module.model}/keras_model.h5", f"{module.model}/labels.txt"
-    #)
+    # )
 
     imgSize = 300
     # create offset for crop size
@@ -378,7 +374,8 @@ def video(module):
         f"{chosen_mod.model}/keras_model.h5", f"{chosen_mod.model}/labels.txt"
     )
     return Response(
-        live_sandbox(chosen_mod, cls), mimetype="multipart/x-mixed-replace; boundary=frame"
+        live_sandbox(chosen_mod, cls),
+        mimetype="multipart/x-mixed-replace; boundary=frame",
     )
 
 
@@ -393,7 +390,7 @@ def login():
 
 @app.route("/sandbox/<module>")
 def index(module):
-    return render_template("sandboxv2.html", module=module)
+    return render_template("sandbox.html", module=module)
 
 
 @app.route("/register", methods=["POST"])
@@ -432,10 +429,13 @@ def statistics():
 @app.route("/modules")
 def modules():
     global remaining_list
-    remaining_list = []
+    global user_mod_data
+    highscores = []
+    for i in range (len(user_mod_data)):
+        highscores.append(user_mod_data[i].high_score)
     modules = get_modules()
     assessments = get_assessments()
-    return render_template("modules.html", modules=modules, assessments=assessments)
+    return render_template("modules.html", modules=modules, assessments=assessments, highscores=highscores)
 
 
 @app.route("/learn/<module>/<sign>")
@@ -454,9 +454,15 @@ def learn(
     cls = Classifier(
         f"{chosen_mod.model}/keras_model.h5", f"{chosen_mod.model}/labels.txt"
     )
-    return render_template("learn.html", module=module, sign=sign, result=result, vid_url = si.video_loc, img_url=si.image_loc, text_desc=si.text_desc)
-
-
+    return render_template(
+        "learn.html",
+        module=module,
+        sign=sign,
+        result=result,
+        vid_url=si.video_loc,
+        img_url=si.image_loc,
+        text_desc=si.text_desc,
+    )
 
 
 @app.route("/assessment/<module>/<assessmentType>")
@@ -483,14 +489,18 @@ def assess(
             chosen_sign = choose_symbol(remaining_list)
             is_first_sign = True
             cls = Classifier(
-        f"{chosen_mod.model}/keras_model.h5", f"{chosen_mod.model}/labels.txt"
-    )
+                f"{chosen_mod.model}/keras_model.h5", f"{chosen_mod.model}/labels.txt"
+            )
         else:
             print("List has values")
-        #global chosen_sign
-        #chosen_sign = sign
+        # global chosen_sign
+        # chosen_sign = sign
         return render_template(
-            "basic_assessment.html", module=module, assessmentType=assessmentType, result=result, sign=chosen_sign
+            "assessments/basic_assessment.html",
+            module=module,
+            assessmentType=assessmentType,
+            result=result,
+            sign=chosen_sign,
         )
     elif assessmentType == "Smart Assessment":
         print("Smart assessment detected")
@@ -500,12 +510,16 @@ def assess(
             chosen_sign = smart_choose(remaining_list)
             is_first_sign = True
             cls = Classifier(
-        f"{chosen_mod.model}/keras_model.h5", f"{chosen_mod.model}/labels.txt"
-    )
+                f"{chosen_mod.model}/keras_model.h5", f"{chosen_mod.model}/labels.txt"
+            )
         else:
             print("List has values")
         return render_template(
-            "smart_assessment.html", module=module, assessmentType=assessmentType, result=result, sign=chosen_sign
+            "assessments/smart_assessment.html",
+            module=module,
+            assessmentType=assessmentType,
+            result=result,
+            sign=chosen_sign,
         )
     elif assessmentType == "Survival Assessment":
         print("Survival assessment detected")
@@ -515,12 +529,16 @@ def assess(
             chosen_sign = choose_symbol(remaining_list)
             is_first_sign = True
             cls = Classifier(
-        f"{chosen_mod.model}/keras_model.h5", f"{chosen_mod.model}/labels.txt"
-    )
+                f"{chosen_mod.model}/keras_model.h5", f"{chosen_mod.model}/labels.txt"
+            )
         else:
             print("List has values")
         return render_template(
-            "survival_assessment.html", module=module, assessmentType=assessmentType, result=result, sign=chosen_sign
+            "assessments/survival_assessment.html",
+            module=module,
+            assessmentType=assessmentType,
+            result=result,
+            sign=chosen_sign,
         )
 
     elif assessmentType == "Rounds Assessment":
@@ -536,7 +554,12 @@ def assess(
         else:
             print("List has values")
         return render_template(
-            "rounds_assessment.html", module=module, assessmentType=assessmentType, result=result, sign=chosen_sign, livesLeft = lives_left_f
+            "assessments/rounds_assessment.html",
+            module=module,
+            assessmentType=assessmentType,
+            result=result,
+            sign=chosen_sign,
+            livesLeft=lives_left_f,
         )
     else:
         print("PROBLEM NOT BASIC")
@@ -558,12 +581,21 @@ def run_learn_sign_f(module, sign):
     global si
     res = learn_sign2(chosen_mod, chosen_sign, cls)  # Replace with your function call
     save_module_data(user_mod_data, f"{username}_data")
-    return render_template("learn.html", module=module, sign=sign, result=res, vid_url = si.video_loc, img_url=si.image_loc, text_desc=si.text_desc)
+    return render_template(
+        "learn.html",
+        module=module,
+        sign=sign,
+        result=res,
+        vid_url=si.video_loc,
+        img_url=si.image_loc,
+        text_desc=si.text_desc,
+    )
+
 
 @app.route("/<module>/<sign>/run_basic_assessment_f", methods=["POST"])
 def run_assessment_f(module, sign):
 
-    #global chosen_mod
+    # global chosen_mod
     global is_first_sign
     global chosen_mod
     global chosen_sign
@@ -573,16 +605,18 @@ def run_assessment_f(module, sign):
         is_first_sign = False
     else:
         print("NOT FIRST SIGN")
-        #chosen_sign = choose_symbol(remaining_list)
+        # chosen_sign = choose_symbol(remaining_list)
     chosen_mod = search_mod_for_name(module, user_mod_data)
     # Call your run_sandbox(chosen_mod) function here
     # Replace the following line with your actual logic
-    #classifier = Classifier(
+    # classifier = Classifier(
     #    f"{chosen_mod.module_name}/keras_model.h5", f"{chosen_mod.module_name}/labels.txt"
-    #)
+    # )
     print(chosen_sign)
     print(chosen_mod)
-    res_tuple = mar15_assessment(chosen_mod, chosen_sign, cls)  # Replace with your function call
+    res_tuple = mar15_assessment(
+        chosen_mod, chosen_sign, cls
+    )  # Replace with your function call
     res = res_tuple[0]
     as_sign = res_tuple[1]
     save_module_data(user_mod_data, f"{username}_data")
@@ -592,14 +626,23 @@ def run_assessment_f(module, sign):
         modules = get_modules()
         assessments = get_assessments()
         update_high_score(score, chosen_mod)
-        return render_template("score.html", module=module, assessments=assessments, score=score)
-    #chosen_sign = choose_symbol(remaining_list)
-    return render_template("basic_assessment.html", module=module, sign=chosen_sign, result=res, assessmentType="Basic Assessment")
+        return render_template(
+            "score.html", module=module, assessments=assessments, score=score
+        )
+    # chosen_sign = choose_symbol(remaining_list)
+    return render_template(
+        "assessments/basic_assessment.html",
+        module=module,
+        sign=chosen_sign,
+        result=res,
+        assessmentType="Basic Assessment",
+    )
+
 
 @app.route("/<module>/<sign>/run_smart_assessment_f", methods=["POST"])
 def run_smart_assessment_f(module, sign):
 
-    #global chosen_mod
+    # global chosen_mod
     global is_first_sign
     global chosen_mod
     global chosen_sign
@@ -609,16 +652,18 @@ def run_smart_assessment_f(module, sign):
         is_first_sign = False
     else:
         print("NOT FIRST SIGN")
-        #chosen_sign = choose_symbol(remaining_list)
+        # chosen_sign = choose_symbol(remaining_list)
     chosen_mod = search_mod_for_name(module, user_mod_data)
     # Call your run_sandbox(chosen_mod) function here
     # Replace the following line with your actual logic
-    #classifier = Classifier(
+    # classifier = Classifier(
     #    f"{chosen_mod.module_name}/keras_model.h5", f"{chosen_mod.module_name}/labels.txt"
-    #)
+    # )
     print(chosen_sign)
     print(chosen_mod)
-    res_tuple = mar15_assessment(chosen_mod, chosen_sign, cls)  # Replace with your function call
+    res_tuple = mar15_assessment(
+        chosen_mod, chosen_sign, cls
+    )  # Replace with your function call
     res = res_tuple[0]
     as_sign = res_tuple[1]
     save_module_data(user_mod_data, f"{username}_data")
@@ -628,14 +673,23 @@ def run_smart_assessment_f(module, sign):
         modules = get_modules()
         assessments = get_assessments()
         update_high_score2(score, chosen_mod)
-        return render_template("score.html", module=module, assessments=assessments, score=score)
-    #chosen_sign = choose_symbol(remaining_list)
-    return render_template("smart_assessment.html", module=module, sign=chosen_sign, result=res, assessmentType="Smart Assessment")
+        return render_template(
+            "score.html", module=module, assessments=assessments, score=score
+        )
+    # chosen_sign = choose_symbol(remaining_list)
+    return render_template(
+        "assessments/smart_assessment.html",
+        module=module,
+        sign=chosen_sign,
+        result=res,
+        assessmentType="Smart Assessment",
+    )
+
 
 @app.route("/<module>/<sign>/run_survival_assessment_f", methods=["POST"])
 def run_survival_assessment_f(module, sign):
 
-    #global chosen_mod
+    # global chosen_mod
     global lives_left_f
     global is_first_sign
     global chosen_mod
@@ -647,16 +701,18 @@ def run_survival_assessment_f(module, sign):
         is_first_sign = False
     else:
         print("NOT FIRST SIGN")
-        #chosen_sign = choose_symbol(remaining_list)
+        # chosen_sign = choose_symbol(remaining_list)
     chosen_mod = search_mod_for_name(module, user_mod_data)
     # Call your run_sandbox(chosen_mod) function here
     # Replace the following line with your actual logic
-    #classifier = Classifier(
+    # classifier = Classifier(
     #    f"{chosen_mod.module_name}/keras_model.h5", f"{chosen_mod.module_name}/labels.txt"
-    #)
+    # )
     print(chosen_sign)
     print(chosen_mod)
-    res_tuple = mar15_assessment_survival(chosen_mod, chosen_sign, cls)  # Replace with your function call
+    res_tuple = mar15_assessment_survival(
+        chosen_mod, chosen_sign, cls
+    )  # Replace with your function call
     res = res_tuple[0]
     as_sign = res_tuple[1]
     save_module_data(user_mod_data, f"{username}_data")
@@ -670,14 +726,24 @@ def run_survival_assessment_f(module, sign):
         modules = get_modules()
         assessments = get_assessments()
         update_high_score3(score, chosen_mod)
-        return render_template("score.html", module=module, assessments=assessments, score=score)
-    #chosen_sign = choose_symbol(remaining_list)
-    return render_template("survival_assessment.html", module=module, sign=chosen_sign, result=res, assessmentType="Survival Assessment", livesLeft = lives_left_f)
+        return render_template(
+            "score.html", module=module, assessments=assessments, score=score
+        )
+    # chosen_sign = choose_symbol(remaining_list)
+    return render_template(
+        "assessments/survival_assessment.html",
+        module=module,
+        sign=chosen_sign,
+        result=res,
+        assessmentType="Survival Assessment",
+        livesLeft=lives_left_f,
+    )
+
 
 @app.route("/<module>/<sign>/run_rounds_assessment_f", methods=["POST"])
 def run_rounds_assessment_f(module, sign):
 
-    #global chosen_mod
+    # global chosen_mod
     global is_first_sign
     global chosen_mod
     global chosen_sign
@@ -688,16 +754,18 @@ def run_rounds_assessment_f(module, sign):
         is_first_sign = False
     else:
         print("NOT FIRST SIGN")
-        #chosen_sign = choose_symbol(remaining_list)
+        # chosen_sign = choose_symbol(remaining_list)
     chosen_mod = search_mod_for_name(module, user_mod_data)
     # Call your run_sandbox(chosen_mod) function here
     # Replace the following line with your actual logic
-    #classifier = Classifier(
+    # classifier = Classifier(
     #    f"{chosen_mod.module_name}/keras_model.h5", f"{chosen_mod.module_name}/labels.txt"
-    #)
+    # )
     print(chosen_sign)
     print(chosen_mod)
-    res_tuple = mar15_assessment_rounds(chosen_mod, chosen_sign, cls)  # Replace with your function call
+    res_tuple = mar15_assessment_rounds(
+        chosen_mod, chosen_sign, cls
+    )  # Replace with your function call
     res = res_tuple[0]
     as_sign = res_tuple[1]
     save_module_data(user_mod_data, f"{username}_data")
@@ -708,22 +776,36 @@ def run_rounds_assessment_f(module, sign):
             modules = get_modules()
             assessments = get_assessments()
             update_high_score4(score, chosen_mod)
-            return render_template("score.html", module=module, assessments=assessments, score=score)
+            return render_template(
+                "score.html", module=module, assessments=assessments, score=score
+            )
         else:
             print("WAYAYAYA")
             print(f"length of wrong list: {len(wrong_list)}")
             print(f"length of remaining list: {len(remaining_list)}")
             chosen_sign = choose_symbol(wrong_list)
-            return render_template("wrongs_assessment.html", module=module, sign=chosen_sign, result=res,
-                                   assessmentType="Rounds Assessment")
+            return render_template(
+                "assessments/wrongs_assessment.html",
+                module=module,
+                sign=chosen_sign,
+                result=res,
+                assessmentType="Rounds Assessment",
+            )
 
-        #return render_template("score.html", module=module, assessments=assessments, score=score) #chosen_sign = choose_symbol(remaining_list)
-    return render_template("rounds_assessment.html", module=module, sign=chosen_sign, result=res, assessmentType="Rounds Assessment")
+        # return render_template("score.html", module=module, assessments=assessments, score=score) #chosen_sign = choose_symbol(remaining_list)
+    return render_template(
+        "assessments/rounds_assessment.html",
+        module=module,
+        sign=chosen_sign,
+        result=res,
+        assessmentType="Rounds Assessment",
+    )
+
 
 @app.route("/<module>/<sign>/run_wrongs_assessment_f", methods=["POST"])
 def run_wrongs_assessment_f(module, sign):
 
-    #global chosen_mod
+    # global chosen_mod
     global is_first_sign
     global chosen_mod
     global chosen_sign
@@ -735,37 +817,52 @@ def run_wrongs_assessment_f(module, sign):
         is_first_sign = False
     else:
         print("NOT FIRST SIGN")
-        #chosen_sign = choose_symbol(remaining_list)
+        # chosen_sign = choose_symbol(remaining_list)
     chosen_mod = search_mod_for_name(module, user_mod_data)
     # Call your run_sandbox(chosen_mod) function here
     # Replace the following line with your actual logic
-    #classifier = Classifier(
+    # classifier = Classifier(
     #    f"{chosen_mod.module_name}/keras_model.h5", f"{chosen_mod.module_name}/labels.txt"
-    #)
+    # )
     print(chosen_sign)
     print(chosen_mod)
-    res_tuple = mar15_assessment_wrongs(chosen_mod, chosen_sign, cls)  # Replace with your function call
+    res_tuple = mar15_assessment_wrongs(
+        chosen_mod, chosen_sign, cls
+    )  # Replace with your function call
     res = res_tuple[0]
     as_sign = res_tuple[1]
     save_module_data(user_mod_data, f"{username}_data")
     if len(wrong_list) != 0:
         print("wrong list persists")
         chosen_sign = choose_symbol(wrong_list)
-        return render_template("wrongs_assessment.html", module=module, sign=chosen_sign, result=res,
-                               assessmentType="Rounds Assessment")
+        return render_template(
+            "assessments/wrongs_assessment.html",
+            module=module,
+            sign=chosen_sign,
+            result=res,
+            assessmentType="Rounds Assessment",
+        )
     else:
         if len(wrong_list) == 0:
             modules = get_modules()
             assessments = get_assessments()
-            #update_high_score4(score, chosen_mod)
-            return render_template("score.html", module=module, assessments=assessments, score=score)
+            # update_high_score4(score, chosen_mod)
+            return render_template(
+                "score.html", module=module, assessments=assessments, score=score
+            )
         else:
-            return render_template("wrongs_assessment.html", module=module, sign=chosen_sign, result=res,
-                                   assessmentType="Rounds Assessment")
+            return render_template(
+                "assessments/wrongs_assessment.html",
+                module=module,
+                sign=chosen_sign,
+                result=res,
+                assessmentType="Rounds Assessment",
+            )
 
-        #return render_template("score.html", module=module, assessments=assessments, score=score) #chosen_sign = choose_symbol(remaining_list)
-   # return render_template("rounds_assessment.html", module=module, sign=chosen_sign, result=res, assessmentType="Rounds Assessment")
+        # return render_template("score.html", module=module, assessments=assessments, score=score) #chosen_sign = choose_symbol(remaining_list)
 
+
+# return render_template("rounds_assessment.html", module=module, sign=chosen_sign, result=res, assessmentType="Rounds Assessment")
 
 
 @app.route("/looper")

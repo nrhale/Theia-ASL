@@ -8,133 +8,100 @@
     />
   </head>
   <body>
-    <a href="/home">
-      <img
-        src="{{ url_for('static', filename='images/theia-name-logo.png') }}"
-        alt="Theia Logo"
-        style="max-width: 10%; height: auto; padding: 10px"
-      />
-    </a>
-    <h1>Sign {{ sign }}</h1>
-    <a href="/modules" class="btn btn-primary"
-      ><h2>Return to Modules Page</h2></a
-    >
+    <div class="page-content">
+      <div style="height: 20px"></div>
 
-    <div
-      style="
-        display: flex;
-        flex-direction: row;
-        flex-grow: 1;
-        align-items: center;
-      "
-    >
+      <div style="display: flex; justify-content: center">
+        <a href="/home" class="home-link">
+          <img
+            src="{{ url_for('static', filename='images/theia-name-logo.png') }}"
+            alt="Theia Logo"
+            class="home-img"
+          />
+        </a>
+      </div>
+
+      <h1 style="text-align: center; margin: 20px 0">Sign {{ sign }}</h1>
+
+      <p style="padding: 0 15vw; text-align: center">{{ text_desc }}</p>
+
+      <!-- Image and Video Tutorial -->
       <div
-        id="video-container"
-        class="center-box"
-        style="flex-direction: column"
+        style="
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
+        "
+      >
+        <img
+          src="{{ url_for('static', filename=img_url) }}"
+          style="width: auto; height: 200px"
+        />
+        <iframe width="420" height="315" src="{{ vid_url }}"> </iframe>
+      </div>
+
+      <!-- Try Sign Video Feed -->
+      <div
+        style="
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin: 20px 0;
+        "
       >
         <img id="video" src="/video" alt="Camera Feed" />
-        <div style="height: 20px"></div>
-        <div style="display: flex; flex-direction: row">
-          <button
-            id="toggle-button"
-            onclick="toggleCamera()"
-            class="rounded-button"
-            style="color: black; background-color: #dddddd"
-          >
-            Toggle Camera
-          </button>
-          <script>
-            function toggleCamera() {
-              const videoElement = document.getElementById("video");
-              if (videoElement.style.display === "none") {
-                videoElement.style.display = "block";
-              } else {
-                videoElement.style.display = "none";
-              }
-            }
-          </script>
-          <span style="width: 20px"></span>
-          <form
-            action="/{{ module }}/{{ sign }}/run_learn_sign_f"
-            method="POST"
-          >
-            <input type="submit" id="myButton" value="Try Sign" class="rounded-button" />
-          </form>
-        </div>
-        <div style="height: 20px"></div>
-        <div id="result">{{ result }}</div>
-            <script>
+      </div>
+
+      <div style="display: flex; flex-direction: row; justify-content: center">
+        <button id="toggle-button" onclick="toggleCamera()">
+          Toggle Camera
+        </button>
+        <span style="width: 20px"></span>
+        <form action="/{{ module }}/{{ sign }}/run_learn_sign_f" method="POST">
+          <input
+            type="submit"
+            id="myButton"
+            value="Try Sign"
+            style="background-color: #6d4f1a; color: white"
+          />
+        </form>
+      </div>
+
+      <p id="result" style="text-align: center">{{ result }}</p>
+
+      <script>
+        function toggleCamera() {
+          const videoElement = document.getElementById("video");
+          if (videoElement.style.display === "none") {
+            videoElement.style.display = "block";
+          } else {
+            videoElement.style.display = "none";
+          }
+        }
+      </script>
+
+      <script>
         // Function to change the button value
         function changeButtonValue() {
-            document.getElementById("myButton").value = "Processing...";
+          document.getElementById("myButton").value = "Processing...";
         }
 
         // Attach the function to the button's click event
-        document.getElementById("myButton").addEventListener("click", changeButtonValue);
-    </script>
-        <script>
-          // Automatically show the pop-up when the page loads
-          window.onload = function () {
-            document.getElementById("popup").style.display = "block";
-          };
+        document
+          .getElementById("myButton")
+          .addEventListener("click", changeButtonValue);
+      </script>
+      <script>
+        // Automatically show the pop-up when the page loads
+        window.onload = function () {
+          document.getElementById("popup").style.display = "block";
+        };
 
-          function showPopup() {
-            document.getElementById("popup").style.display = "block";
-          }
-        </script>
-      </div>
-
-      <div class="center-box" style="flex-direction: column">
-        <div style="display: flex; flex-direction: row; align-items: center">
-          <img
-            src="{{ url_for('static', filename=img_url) }}"
-            style="width: auto; height: 250px; padding: 10px"
-          />
-          <iframe width="420" height="315" src="{{ vid_url }}"> </iframe>
-        </div>
-        <div style="height: 20px"></div>
-        <h3>Sign Description</h3>
-        <p style="padding: 0 20px">{{ text_desc }}</p>
-      </div>
-    </div>
-
-    <!-- <h2>Video:</h2>
-    <iframe width="420" height="315" src="{{ vid_url }}"> </iframe>
-    <h3>Sign Description</h3>
-    <h4>{{ text_desc }}</h4>
-    <img src="{{ url_for('static', filename=img_url) }}" alt="Your Image" />
-    <h1>Click the button to attempt sign:</h1>
-    <form action="/{{ module }}/{{ sign }}/run_learn_sign_f" method="POST">
-      <input type="submit" value="Try Sign" />
-    </form>
-    <div id="result">{{ result }}</div>
-    <script>
-      // Automatically show the pop-up when the page loads
-      window.onload = function () {
-        document.getElementById("popup").style.display = "block";
-      };
-
-      function showPopup() {
-        document.getElementById("popup").style.display = "block";
-      }
-    </script> -->
-
-    <!-- <div id="video-container">
-      <img id="video" src="/video" alt="Camera Feed" />
-      <button id="toggle-button" onclick="toggleCamera()">Toggle Camera</button>
-    </div>
-
-    <script>
-      function toggleCamera() {
-        const videoElement = document.getElementById("video");
-        if (videoElement.style.display === "none") {
-          videoElement.style.display = "block";
-        } else {
-          videoElement.style.display = "none";
+        function showPopup() {
+          document.getElementById("popup").style.display = "block";
         }
-      }
-    </script> -->
-    <!-- <a href="/modules" class="btn btn-primary">Return to Modules Page</a> -->
+      </script>
+    </div>
   </body>
 </html>
