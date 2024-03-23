@@ -13,20 +13,11 @@ body {
   overflow: hidden;
 }
 
-h1 {
-  color: #6d4f1a;
-}
-
-h2 {
-  color: #8b6d38;
-}
-
-h3 {
-  color: #a18b4e;
-}
-
+h1,
+h2,
+h3,
 h4 {
-  color: #b5a96a;
+  color: #6d4f1a;
 }
 
 input[type="text"] {
@@ -117,4 +108,9 @@ input[type="submit"] {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.dark-btn {
+  background-color: #6d4f1a;
+  color: #fff;
 }

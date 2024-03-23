@@ -12,17 +12,54 @@
     />
   </head>
   <body>
-    <h1>{{ assessmentType }}</h1>
-    <h1>{{ REDEMPTION }}</h1>
-    <h2>You will now retry the signs gotten wrong</h2>
-    <h1>Click the button to attempt sign:</h1>
-    <form
-      action="/{{ module }}/{{ sign }}/run_wrongs_assessment_f"
-      method="POST"
-    >
-      <input type="submit" id="myButton" value="Make {{ sign }}" />
-    </form>
-    <div id="result">{{ result }}</div>
+    <div class="page-content">
+      <div style="height: 20px"></div>
+
+      <div style="display: flex; justify-content: center">
+        <a href="/home" class="home-link">
+          <img
+            src="{{ url_for('static', filename='images/theia-name-logo.png') }}"
+            alt="Theia Logo"
+            class="home-img"
+          />
+        </a>
+      </div>
+
+      <h1>{{ assessmentType }}</h1>
+
+      <h3 style="text-align: center">{{ REDEMPTION }}</h3>
+      <h3 style="text-align: center">
+        You will now retry the signs gotten wrong
+      </h3>
+      <h3 style="text-align: center">Click the button to attempt sign:</h3>
+
+      <div class="flex-center">
+        <form
+          action="/{{ module }}/{{ sign }}/run_wrongs_assessment_f"
+          method="POST"
+        >
+          <input
+            type="submit"
+            id="myButton"
+            value="Make {{ sign }}"
+            class="dark-btn"
+          />
+        </form>
+      </div>
+
+      <p id="result" style="text-align: center">{{ result }}</p>
+
+      <div id="video-container" class="flex-center">
+        <img id="video" src="/video" alt="Camera Feed" />
+      </div>
+
+      <div class="flex-center" style="margin: 20px 0">
+        <button id="toggle-button" onclick="toggleCamera()">
+          Toggle Camera
+        </button>
+      </div>
+    </div>
+
     <script>
       // Function to change the button value
       function changeButtonValue() {
@@ -34,6 +71,7 @@
         .getElementById("myButton")
         .addEventListener("click", changeButtonValue);
     </script>
+
     <script>
       // Automatically show the pop-up when the page loads
       window.onload = function () {
@@ -44,11 +82,6 @@
         document.getElementById("popup").style.display = "block";
       }
     </script>
-    <div id="video-container">
-      <img id="video" src="/video" alt="Camera Feed" />
-      <!-- Add your button here -->
-      <button id="toggle-button" onclick="toggleCamera()">Toggle Camera</button>
-    </div>
 
     <script>
       function toggleCamera() {
@@ -60,8 +93,5 @@
         }
       }
     </script>
-    <a href="/modules" class="btn btn-primary"
-      ><h2>Return to Modules Page</h2></a
-    >
   </body>
 </html>
