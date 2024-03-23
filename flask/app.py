@@ -430,6 +430,7 @@ def statistics():
 def modules():
     global remaining_list
     global user_mod_data
+    remaining_list = []
     highscores = []
     highscores2 = []
     highscores3 = []
@@ -669,7 +670,7 @@ def run_smart_assessment_f(module, sign):
     print(chosen_mod)
     res_tuple = mar15_assessment(
         chosen_mod, chosen_sign, cls
-    )  # Replace with your function call
+    )
     res = res_tuple[0]
     as_sign = res_tuple[1]
     save_module_data(user_mod_data, f"{username}_data")
