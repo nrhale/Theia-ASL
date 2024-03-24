@@ -27,6 +27,9 @@
       <div style="padding: 0 0 0 20px">
         {% for module in modules %}
         {% set outer_loop_index = loop.index0 %}
+        <div class="hr-wrapper">
+          <hr>
+        </div>
         <h2 class="toggle" style="cursor: pointer">{{ module.name }} ☰</h2>
 
         <div class="hide-content" style="padding: 0 0 0 20px">

@@ -2,6 +2,13 @@
 <html>
   <head>
     <title>Statistics - TheiaASL</title>
+        <script>
+        function roundNumber(rnum, rlength) {
+            // Arguments: number to round, number of decimal places
+            var newnumber = Math.round(rnum * Math.pow(10, rlength)) / Math.pow(10, rlength);
+            return newnumber;
+        }
+       </script>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/style.css') }}"
@@ -26,6 +33,9 @@
 
       <div style="padding: 0 0 0 20px">
         {% for module in statistics %}
+        <div class="hr-wrapper">
+          <hr>
+        </div>
         <h2 class="toggle" style="cursor: pointer">
           {{ module.module_name }} ☰
         </h2>
@@ -36,7 +46,7 @@
           <h3>
             Sign: {{ sign.sign_name }}, Times Asked: {{ sign.assessed_count }},
             Accuracy: {% if sign.assessed_count <= 0 %}N/A{% else %}{{
-            sign.correct_count / sign.assessed_count }}{% endif %}
+            (sign.correct_count / sign.assessed_count * 100)|round(2)}}%{% endif %}
           </h3>
           {% endfor %} {% endif %}
         </div>
