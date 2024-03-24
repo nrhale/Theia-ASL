@@ -2,11 +2,42 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Score</title>
+    <title>Score - TheiaASL</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
   </head>
   <body>
-    You have a final score of {{ score }}
+    <div class="page-content">
+      <div style="height: 20px"></div>
 
-    <a href="/modules" class="btn btn-primary">Go to Modules</a>
+      <div style="display: flex; justify-content: center">
+        <a href="/home" class="home-link">
+          <img
+            src="{{ url_for('static', filename='images/theia-name-logo.png') }}"
+            alt="Theia Logo"
+            class="home-img"
+          />
+        </a>
+      </div>
+      <h1 style="text-align: center">Score</h1>
+
+      <h3 style="text-align: center; padding: 0 15vw">
+        You have a final score of {{ score }}.
+      </h3>
+
+      <div
+        style="
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin: 20px;
+        "
+        ˝
+      >
+        <a href="/modules" class="btn btn-primary"><h3>Go to Modules</h3></a>
+      </div>
+    </div>
   </body>
 </html>
